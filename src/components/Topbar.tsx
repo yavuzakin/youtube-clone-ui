@@ -3,6 +3,7 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import SearchIcon from '@mui/icons-material/Search';
 
 import YoutubeLogo from '../images/logo.png';
+import { Link } from 'react-router-dom';
 
 const Container = styled.div`
   display: flex;
@@ -24,6 +25,7 @@ const Logo = styled.div`
   margin-top: 1.8rem;
   margin-bottom: 2.5rem;
   padding: 0 1.2rem;
+  cursor: pointer;
 `;
 
 const Image = styled.img`
@@ -81,10 +83,12 @@ const Button = styled.button`
 const Topbar = () => {
   return (
     <Container>
-      <Logo>
-        <Image src={YoutubeLogo} />
-        YouTube
-      </Logo>
+      <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+        <Logo>
+          <Image src={YoutubeLogo} />
+          YouTube
+        </Logo>
+      </Link>
       <Search>
         <Input placeholder="Search" />
         <Icon>

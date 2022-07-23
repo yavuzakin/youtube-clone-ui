@@ -1,23 +1,14 @@
 import { useState } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Leftbar from './components/Leftbar';
 import Topbar from './components/Topbar';
 import { darkTheme, lightTheme } from './utils/Theme';
+import Home from './pages/Home';
+import Video from './pages/Video';
 
 const Container = styled.div`
   font-size: 1.6rem;
-`;
-
-const Main = styled.div`
-  display: flex;
-`;
-
-const Content = styled.h1`
-  flex: 8;
-  padding: 1rem 2rem;
-  font-size: 56px;
-  color: ${({ theme }) => theme.textDark};
-  background-color: ${({ theme }) => theme.bg};
 `;
 
 function App() {
@@ -30,35 +21,25 @@ function App() {
   return (
     <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
       <Container>
-        <Topbar />
-        <Main>
-          <Leftbar
-            isDarkTheme={isDarkTheme}
-            onThemeChange={themeChangeHandler}
-          />
-          <Content>
-            <h1>Video Cards</h1>
-            <h1>Video Cards</h1>
-            <h1>Video Cards</h1>
-            <h1>Video Cards</h1>
-            <h1>Video Cards</h1>
-            <h1>Video Cards</h1>
-            <h1>Video Cards</h1>
-            <h1>Video Cards</h1>
-            <h1>Video Cards</h1>
-            <h1>Video Cards</h1>
-            <h1>Video Cards</h1>
-            <h1>Video Cards</h1>
-            <h1>Video Cards</h1>
-            <h1>Video Cards</h1>
-            <h1>Video Cards</h1>
-            <h1>Video Cards</h1>
-            <h1>Video Cards</h1>
-            <h1>Video Cards</h1>
-            <h1>Video Cards</h1>
-            <h1>Video Cards</h1>
-          </Content>
-        </Main>
+        <BrowserRouter>
+          <Topbar />
+          <Routes>
+            <Route path="/">
+              <Route
+                index
+                element={
+                  <Home
+                    isDarkTheme={isDarkTheme}
+                    onThemeChange={themeChangeHandler}
+                  />
+                }
+              />
+              <Route path="video">
+                <Route path=":id" element={<Video />} />
+              </Route>
+            </Route>
+          </Routes>
+        </BrowserRouter>
       </Container>
     </ThemeProvider>
   );
