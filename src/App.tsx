@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import Leftbar from './components/Leftbar';
 import Topbar from './components/Topbar';
@@ -17,10 +18,16 @@ const Heading = styled.h1`
 `;
 
 function App() {
+  const [isDarkTheme, setIsDarkTheme] = useState(true);
+
+  const themeChangeHandler = () => {
+    setIsDarkTheme((prevState) => !prevState);
+  };
+
   return (
-    <ThemeProvider theme={lightTheme}>
+    <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
       <Container>
-        <Leftbar />
+        <Leftbar isDarkTheme={isDarkTheme} onThemeChange={themeChangeHandler} />
         <Main>
           <Topbar />
           <Heading>Video Cards</Heading>

@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 // Icons
 import HomeOutlined from '@mui/icons-material/HomeOutlined';
@@ -21,8 +22,8 @@ import YoutubeLogo from '../images/logo.png';
 
 const Container = styled.div`
   flex: 1;
-  background-color: #202020;
-  color: white;
+  background-color: ${({ theme }) => theme.bgLight};
+  color: ${({ theme }) => theme.text};
   height: 100vh;
   position: sticky;
   top: 0;
@@ -52,13 +53,13 @@ const Item = styled.div`
   border-radius: 1rem;
   cursor: pointer;
   &:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: ${({ theme }) => theme.bgLighter};
   }
 `;
 
 const Hr = styled.hr`
   margin: 1.5rem 0;
-  border: 0.5px solid #373737;
+  border: 0.5px solid ${({ theme }) => theme.soft};
 `;
 
 const Login = styled.div`
@@ -82,7 +83,12 @@ const Button = styled.button`
   gap: 1rem;
 `;
 
-const Leftbar = () => {
+interface Props {
+  isDarkTheme: boolean;
+  onThemeChange: () => void;
+}
+
+const Leftbar: React.FC<Props> = (props) => {
   return (
     <Container>
       <Logo>
@@ -155,9 +161,9 @@ const Leftbar = () => {
         <HelpOutlined style={{ fontSize: '2.4rem' }} />
         Help
       </Item>
-      <Item>
+      <Item onClick={props.onThemeChange}>
         <ModeOutlined style={{ fontSize: '2.4rem' }} />
-        Dark Mode
+        {props.isDarkTheme ? 'Light' : 'Dark'} Mode
       </Item>
     </Container>
   );
