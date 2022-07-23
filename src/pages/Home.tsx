@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import Card from '../components/Card';
 import Leftbar from '../components/Leftbar';
 
 const Container = styled.div`
@@ -7,7 +8,11 @@ const Container = styled.div`
 
 const Content = styled.h1`
   flex: 8;
-  padding: 1rem 6rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  column-gap: 2rem;
+  row-gap: 4rem;
+  padding: 2rem 6rem;
   font-size: 56px;
   color: ${({ theme }) => theme.textDark};
   background-color: ${({ theme }) => theme.bg};
@@ -25,7 +30,34 @@ const Home: React.FC<Props> = (props) => {
         isDarkTheme={props.isDarkTheme}
         onThemeChange={props.onThemeChange}
       />
-      <Content></Content>
+      <Content>
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+      </Content>
     </Container>
   );
 };
