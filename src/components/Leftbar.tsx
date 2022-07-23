@@ -18,31 +18,15 @@ import HelpOutlined from '@mui/icons-material/HelpOutlineOutlined';
 import ModeOutlined from '@mui/icons-material/SettingsBrightnessOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 
-import YoutubeLogo from '../images/logo.png';
-
 const Container = styled.div`
   flex: 1;
   background-color: ${({ theme }) => theme.bgLight};
   color: ${({ theme }) => theme.text};
-  height: 100vh;
+  height: calc(100vh - 5.6rem);
   position: sticky;
-  top: 0;
+  top: 5.6rem;
   padding: 0 2.6rem;
   font-size: 1.4rem;
-`;
-
-const Logo = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  font-size: 1.5rem;
-  margin-top: 1.8rem;
-  margin-bottom: 2.5rem;
-  padding: 0 1.2rem;
-`;
-
-const Image = styled.img`
-  height: 3rem;
 `;
 
 const Item = styled.div`
@@ -91,10 +75,6 @@ interface Props {
 const Leftbar: React.FC<Props> = (props) => {
   return (
     <Container>
-      <Logo>
-        <Image src={YoutubeLogo} />
-        YouTube
-      </Logo>
       <Item>
         <HomeOutlined style={{ fontSize: '2.4rem' }} />
         Home

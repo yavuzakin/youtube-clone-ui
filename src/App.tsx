@@ -5,16 +5,19 @@ import Topbar from './components/Topbar';
 import { darkTheme, lightTheme } from './utils/Theme';
 
 const Container = styled.div`
-  display: flex;
   font-size: 1.6rem;
 `;
 
 const Main = styled.div`
-  flex: 8;
+  display: flex;
 `;
 
-const Heading = styled.h1`
+const Content = styled.h1`
+  flex: 8;
+  padding: 1rem 2rem;
   font-size: 56px;
+  color: ${({ theme }) => theme.textDark};
+  background-color: ${({ theme }) => theme.bg};
 `;
 
 function App() {
@@ -27,10 +30,34 @@ function App() {
   return (
     <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
       <Container>
-        <Leftbar isDarkTheme={isDarkTheme} onThemeChange={themeChangeHandler} />
+        <Topbar />
         <Main>
-          <Topbar />
-          <Heading>Video Cards</Heading>
+          <Leftbar
+            isDarkTheme={isDarkTheme}
+            onThemeChange={themeChangeHandler}
+          />
+          <Content>
+            <h1>Video Cards</h1>
+            <h1>Video Cards</h1>
+            <h1>Video Cards</h1>
+            <h1>Video Cards</h1>
+            <h1>Video Cards</h1>
+            <h1>Video Cards</h1>
+            <h1>Video Cards</h1>
+            <h1>Video Cards</h1>
+            <h1>Video Cards</h1>
+            <h1>Video Cards</h1>
+            <h1>Video Cards</h1>
+            <h1>Video Cards</h1>
+            <h1>Video Cards</h1>
+            <h1>Video Cards</h1>
+            <h1>Video Cards</h1>
+            <h1>Video Cards</h1>
+            <h1>Video Cards</h1>
+            <h1>Video Cards</h1>
+            <h1>Video Cards</h1>
+            <h1>Video Cards</h1>
+          </Content>
         </Main>
       </Container>
     </ThemeProvider>
