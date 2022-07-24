@@ -31,32 +31,32 @@ const Home: React.FC<Props> = (props) => {
         onThemeChange={props.onThemeChange}
       />
       <Content>
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
+        <Card size="large" />
+        <Card size="large" />
+        <Card size="large" />
+        <Card size="large" />
+        <Card size="large" />
+        <Card size="large" />
+        <Card size="large" />
+        <Card size="large" />
+        <Card size="large" />
+        <Card size="large" />
+        <Card size="large" />
+        <Card size="large" />
+        <Card size="large" />
+        <Card size="large" />
+        <Card size="large" />
+        <Card size="large" />
+        <Card size="large" />
+        <Card size="large" />
+        <Card size="large" />
+        <Card size="large" />
+        <Card size="large" />
+        <Card size="large" />
+        <Card size="large" />
+        <Card size="large" />
+        <Card size="large" />
+        <Card size="large" />
       </Content>
     </Container>
   );
