@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import TimeAgo from 'react-timeago';
+import { Video } from '../types/Video';
 
 const Container = styled.div<{ size: string }>`
   display: ${(props) => props.size === 'small' && 'flex'};
@@ -22,6 +24,7 @@ const Details = styled.div<{ size: string }>`
   flex: ${(props) => props.size === 'small' && '1'};
   display: flex;
   gap: 1rem;
+  align-self: flex-end;
 `;
 
 const ChannelImage = styled.img<{ size: string }>`
@@ -62,22 +65,27 @@ const ViewsAndCreatedAgo = styled.p<{ size: string }>`
 
 interface Props {
   size: string;
+  video: Video;
 }
 
 const Card: React.FC<Props> = (props) => {
   return (
-    <Link to="/video/test" style={{ textDecoration: 'none', color: 'inherit' }}>
+    <Link
+      to={`/video/${props.video._id}`}
+      style={{ textDecoration: 'none', color: 'inherit' }}
+    >
       <Container size={props.size}>
-        <Image size={props.size} />
+        <Image size={props.size} src={props.video.imgUrl} />
         <Details size={props.size}>
-          <ChannelImage size={props.size} />
+          <ChannelImage size={props.size} src={props.video.user.profilePic} />
           <Texts size={props.size}>
-            <VideoTitle size={props.size}>
-              React Project Tutorial: Build a Responsive Portfolio
-            </VideoTitle>
-            <ChannelName size={props.size}>Pink Ward</ChannelName>
+            <VideoTitle size={props.size}>{props.video.title}</VideoTitle>
+            <ChannelName size={props.size}>
+              {props.video.user.username}
+            </ChannelName>
             <ViewsAndCreatedAgo size={props.size}>
-              58 B görüntüleme ‧ 4 ay önce
+              {props.video.views} views ‧{' '}
+              <TimeAgo date={props.video.createdAt} />
             </ViewsAndCreatedAgo>
           </Texts>
         </Details>

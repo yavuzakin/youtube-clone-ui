@@ -1,6 +1,9 @@
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Card from '../components/Card';
 import Leftbar from '../components/Leftbar';
+import { Video } from '../types/Video';
 
 const Container = styled.div`
   display: flex;
@@ -24,6 +27,17 @@ interface Props {
 }
 
 const Home: React.FC<Props> = (props) => {
+  const [videos, setVideos] = useState<Video[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await axios('http://localhost:4132/api/v1/videos');
+      setVideos(res.data.data.videos);
+      console.log(res);
+    };
+    fetchData();
+  }, []);
+
   return (
     <Container>
       <Leftbar
@@ -31,6 +45,10 @@ const Home: React.FC<Props> = (props) => {
         onThemeChange={props.onThemeChange}
       />
       <Content>
+        {videos.map((video) => (
+          <Card key={video._id} video={video} size="large" />
+        ))}
+        {/* <Card size="large" />
         <Card size="large" />
         <Card size="large" />
         <Card size="large" />
@@ -54,9 +72,7 @@ const Home: React.FC<Props> = (props) => {
         <Card size="large" />
         <Card size="large" />
         <Card size="large" />
-        <Card size="large" />
-        <Card size="large" />
-        <Card size="large" />
+        <Card size="large" /> */}
       </Content>
     </Container>
   );

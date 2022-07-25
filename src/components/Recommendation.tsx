@@ -3,6 +3,7 @@ import Card from './Card';
 const Recommendation = () => {
   return (
     <>
+      {/* <Card size="small" />
       <Card size="small" />
       <Card size="small" />
       <Card size="small" />
@@ -17,8 +18,7 @@ const Recommendation = () => {
       <Card size="small" />
       <Card size="small" />
       <Card size="small" />
-      <Card size="small" />
-      <Card size="small" />
+      <Card size="small" /> */}
     </>
   );
 };
