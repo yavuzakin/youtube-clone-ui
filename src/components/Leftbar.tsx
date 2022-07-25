@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 // Icons
 import HomeOutlined from '@mui/icons-material/HomeOutlined';
 import ExploreOutlined from '@mui/icons-material/ExploreOutlined';
@@ -99,9 +100,11 @@ const Leftbar: React.FC<Props> = (props) => {
       <Hr />
       <Login>
         Sign in to like videos, comment, and subscribe
-        <Button>
-          <AccountCircleOutlinedIcon style={{ fontSize: '2.4rem' }} /> SIGN IN
-        </Button>
+        <Link to="/login" style={{ textDecoration: 'none' }}>
+          <Button>
+            <AccountCircleOutlinedIcon style={{ fontSize: '2.4rem' }} /> SIGN IN
+          </Button>
+        </Link>
       </Login>
       <Hr />
       <Item>

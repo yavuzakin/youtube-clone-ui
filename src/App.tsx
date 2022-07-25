@@ -6,6 +6,7 @@ import { darkTheme, lightTheme } from './utils/Theme';
 import { GlobalStyles } from './utils/GlobalStyles';
 import Home from './pages/Home';
 import Video from './pages/Video';
+import Login from './pages/Login';
 
 const Container = styled.div`
   font-size: 1.6rem;
@@ -35,6 +36,7 @@ function App() {
                   />
                 }
               />
+              <Route path="login" element={<Login />} />
               <Route path="video">
                 <Route path=":id" element={<Video />} />
               </Route>

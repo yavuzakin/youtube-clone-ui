@@ -95,9 +95,11 @@ const Topbar = () => {
           <SearchIcon style={{ fontSize: '2.4rem' }} />
         </Icon>
       </Search>
-      <Button>
-        <AccountCircleOutlinedIcon style={{ fontSize: '2.4rem' }} /> SIGN IN
-      </Button>
+      <Link to="/login" style={{ textDecoration: 'none' }}>
+        <Button>
+          <AccountCircleOutlinedIcon style={{ fontSize: '2.4rem' }} /> SIGN IN
+        </Button>
+      </Link>
     </Container>
   );
 };
