@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Leftbar from './components/Leftbar';
 import Topbar from './components/Topbar';
 import { darkTheme, lightTheme } from './utils/Theme';
+import { GlobalStyles } from './utils/GlobalStyles';
 import Home from './pages/Home';
 import Video from './pages/Video';
 
@@ -21,6 +21,7 @@ function App() {
   return (
     <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
       <Container>
+        <GlobalStyles />
         <BrowserRouter>
           <Topbar />
           <Routes>

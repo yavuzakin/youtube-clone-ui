@@ -15,3 +15,12 @@ export const lightTheme = {
   textDark: '#606060',
   soft: '#f5f5f5',
 };
+
+export interface ThemeType {
+  readonly bg: string;
+  readonly bgLight: string;
+  readonly bgLighter: string;
+  readonly text: string;
+  readonly textDark: string;
+  readonly soft: string;
+}
