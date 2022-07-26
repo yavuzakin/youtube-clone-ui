@@ -7,10 +7,14 @@ export const login = (username: string, password: string) => {
     const sendRequest = async () => {
       dispatch(loginStart());
       try {
-        const response = await axios.post('http://localhost:4132/api/v1/users/login', {
-          username,
-          password,
-        });
+        const response = await axios.post(
+          'http://localhost:4132/api/v1/users/login',
+          {
+            username,
+            password,
+          },
+          { withCredentials: true }
+        );
         dispatch(loginSuccess(response.data.data.user));
       } catch (err) {
         dispatch(loginFailure);
