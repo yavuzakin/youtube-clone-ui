@@ -1,4 +1,7 @@
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import { login } from '../store/userActions';
+import { useAppDispatch } from '../types/Hooks';
 
 const Container = styled.div`
   background-color: ${({ theme }) => theme.bg};
@@ -68,23 +71,61 @@ const Hr = styled.hr`
 const Text = styled.h4``;
 
 const Login = () => {
+  const [usernameLogin, setUsernameLogin] = useState('');
+  const [passwordLogin, setPasswordLogin] = useState('');
+
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+
+  const dispatch = useAppDispatch();
+
+  const usernameLoginChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUsernameLogin(e.target.value);
+  };
+
+  const passwordLoginChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPasswordLogin(e.target.value);
+  };
+
+  const usernameChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUsername(e.target.value);
+  };
+
+  const passwordChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+  };
+
+  const emailChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  };
+
+  const loginHandler = async (e: React.FormEvent) => {
+    e.preventDefault();
+    dispatch(login(usernameLogin, passwordLogin));
+  };
+
+  const registerHandler = async (e: React.FormEvent) => {
+    e.preventDefault();
+  };
+
   return (
     <Container>
       <Form>
         <Title>Sign in</Title>
-        <Input placeholder="username" />
-        <Input placeholder="password" />
-        <Button>Sign in</Button>
+        <Input type="text" placeholder="username" onChange={usernameLoginChangeHandler} />
+        <Input type="password" placeholder="password" onChange={passwordLoginChangeHandler} />
+        <Button onClick={loginHandler}>Sign in</Button>
         <Divisor>
           <Hr />
           <Text> or </Text>
           <Hr />
         </Divisor>
         <Title>Sign up</Title>
-        <Input placeholder="username" />
-        <Input placeholder="email" />
-        <Input placeholder="password" />
-        <Button>Sign up</Button>
+        <Input placeholder="username" onChange={usernameChangeHandler} />
+        <Input placeholder="email" onChange={passwordChangeHandler} />
+        <Input placeholder="password" onChange={emailChangeHandler} />
+        <Button onClick={registerHandler}>Sign up</Button>
       </Form>
     </Container>
   );

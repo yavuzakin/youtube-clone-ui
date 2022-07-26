@@ -70,22 +70,16 @@ interface Props {
 
 const Card: React.FC<Props> = (props) => {
   return (
-    <Link
-      to={`/video/${props.video._id}`}
-      style={{ textDecoration: 'none', color: 'inherit' }}
-    >
+    <Link to={`/video/${props.video._id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
       <Container size={props.size}>
         <Image size={props.size} src={props.video.imgUrl} />
         <Details size={props.size}>
           <ChannelImage size={props.size} src={props.video.user.profilePic} />
           <Texts size={props.size}>
             <VideoTitle size={props.size}>{props.video.title}</VideoTitle>
-            <ChannelName size={props.size}>
-              {props.video.user.username}
-            </ChannelName>
+            <ChannelName size={props.size}>{props.video.user.username}</ChannelName>
             <ViewsAndCreatedAgo size={props.size}>
-              {props.video.views} views ‧{' '}
-              <TimeAgo date={props.video.createdAt} />
+              {props.video.views} views ‧ <TimeAgo date={props.video.createdAt} />
             </ViewsAndCreatedAgo>
           </Texts>
         </Details>

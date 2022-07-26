@@ -40,10 +40,7 @@ const Home: React.FC<Props> = (props) => {
 
   return (
     <Container>
-      <Leftbar
-        isDarkTheme={props.isDarkTheme}
-        onThemeChange={props.onThemeChange}
-      />
+      <Leftbar isDarkTheme={props.isDarkTheme} onThemeChange={props.onThemeChange} />
       <Content>
         {videos.map((video) => (
           <Card key={video._id} video={video} size="large" />
