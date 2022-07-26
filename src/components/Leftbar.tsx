@@ -19,6 +19,8 @@ import HelpOutlined from '@mui/icons-material/HelpOutlineOutlined';
 import ModeOutlined from '@mui/icons-material/SettingsBrightnessOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 
+import { useAppSelector } from '../types/Hooks';
+
 const Container = styled.div`
   flex: 1;
   background-color: ${({ theme }) => theme.bgLight};
@@ -74,6 +76,8 @@ interface Props {
 }
 
 const Leftbar: React.FC<Props> = (props) => {
+  const { currentUser } = useAppSelector((state) => state.user);
+
   return (
     <Container>
       <Item>
@@ -98,15 +102,19 @@ const Leftbar: React.FC<Props> = (props) => {
         History
       </Item>
       <Hr />
-      <Login>
-        Sign in to like videos, comment, and subscribe
-        <Link to="/login" style={{ textDecoration: 'none' }}>
-          <Button>
-            <AccountCircleOutlinedIcon style={{ fontSize: '2.4rem' }} /> SIGN IN
-          </Button>
-        </Link>
-      </Login>
-      <Hr />
+      {!currentUser && (
+        <>
+          <Login>
+            Sign in to like videos, comment, and subscribe
+            <Link to="/login" style={{ textDecoration: 'none' }}>
+              <Button>
+                <AccountCircleOutlinedIcon style={{ fontSize: '2.4rem' }} /> SIGN IN
+              </Button>
+            </Link>
+          </Login>
+          <Hr />
+        </>
+      )}
       <Item>
         <MusicOutlined style={{ fontSize: '2.4rem' }} />
         Music

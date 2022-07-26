@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import SearchIcon from '@mui/icons-material/Search';
+import AddVideo from '@mui/icons-material/VideoCallOutlined';
 
 import YoutubeLogo from '../images/logo.png';
 import { Link } from 'react-router-dom';
+import { useAppSelector } from '../types/Hooks';
 
 const Container = styled.div`
   display: flex;
@@ -80,7 +82,24 @@ const Button = styled.button`
   gap: 1rem;
 `;
 
+const User = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  color: ${({ theme }) => theme.text};
+  font-weight: 500;
+`;
+
+const Avatar = styled.img`
+  height: 3.2rem;
+  width: 3.2rem;
+  border-radius: 50%;
+  background-color: #999;
+`;
+
 const Topbar = () => {
+  const { currentUser } = useAppSelector((state) => state.user);
+
   return (
     <Container>
       <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
@@ -95,11 +114,19 @@ const Topbar = () => {
           <SearchIcon style={{ fontSize: '2.4rem' }} />
         </Icon>
       </Search>
-      <Link to="/login" style={{ textDecoration: 'none' }}>
-        <Button>
-          <AccountCircleOutlinedIcon style={{ fontSize: '2.4rem' }} /> SIGN IN
-        </Button>
-      </Link>
+      {currentUser ? (
+        <User>
+          <AddVideo style={{ fontSize: '2.4rem' }} />
+          <Avatar src={currentUser.profilePic} />
+          {currentUser.username}
+        </User>
+      ) : (
+        <Link to="/login" style={{ textDecoration: 'none' }}>
+          <Button>
+            <AccountCircleOutlinedIcon style={{ fontSize: '2.4rem' }} /> SIGN IN
+          </Button>
+        </Link>
+      )}
     </Container>
   );
 };
