@@ -124,7 +124,7 @@ const SingleVideo: React.FC<Props> = (props) => {
   if (user) {
     isLiked = props.video?.likes.includes(user._id);
     isDisliked = props.video?.dislikes.includes(user._id);
-    isSubscribed = user.subscribedUsers.includes(props.video.user._id);
+    isSubscribed = user.subscribedUsers.includes(props.video?.user._id);
     isChannelOwner = props.video?.user._id === user._id;
   }
 

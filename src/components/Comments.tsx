@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Comment as CommentType } from '../types/Comment';
 import Comment from './Comment';
 import NewComment from './NewComment';
 
@@ -15,17 +16,19 @@ const CommentsCount = styled.p`
   color: ${({ theme }) => theme.text};
 `;
 
-const Comments = () => {
+interface Props {
+  comments: CommentType[];
+  onAddNewComment: (newComment: CommentType) => void;
+}
+
+const Comments: React.FC<Props> = (props) => {
   return (
     <Container>
-      <CommentsCount>242 Comments</CommentsCount>
-      <NewComment />
-      <Comment />
-      <Comment />
-      <Comment />
-      <Comment />
-      <Comment />
-      <Comment />
+      <CommentsCount>{props.comments?.length} Comments</CommentsCount>
+      <NewComment onAddNewComment={props.onAddNewComment} />
+      {props.comments?.map((comment) => (
+        <Comment key={comment._id} comment={comment} />
+      ))}
     </Container>
   );
 };

@@ -1,5 +1,9 @@
+import axios from 'axios';
 import { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { Comment } from '../types/Comment';
+import { useAppSelector } from '../types/Hooks';
 
 const Container = styled.div`
   display: flex;
@@ -46,35 +50,60 @@ const Button = styled.button<{ isFilled: boolean }>`
   padding: 1rem 1.6rem;
   cursor: pointer;
   color: ${({ theme }) => theme.bgLight};
-  background-color: ${({ theme, isFilled }) =>
-    isFilled ? '#3ea6ff' : theme.bgLighter};
+  background-color: ${({ theme, isFilled }) => (isFilled ? '#3ea6ff' : theme.bgLighter)};
 `;
 
-const NewComment = () => {
+interface Props {
+  onAddNewComment: (newComment: Comment) => void;
+}
+
+const NewComment: React.FC<Props> = (props) => {
   const [userInput, setUserInput] = useState('');
   const [isInputActive, setIsInputActive] = useState(false);
+
+  const user = useAppSelector((state) => state.user.currentUser);
+
+  const videoId = useLocation().pathname.split('/')[2];
+
+  const navigate = useNavigate();
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserInput(e.target.value);
   };
 
   const inputStateHandler = () => {
-    setIsInputActive((prevState) => !prevState);
+    if (!user) navigate('/login');
+    setIsInputActive(true);
+  };
+
+  const clickHandler = async () => {
+    try {
+      const response = await axios.post(
+        'http://localhost:4132/api/v1/comments/',
+        { video: videoId, description: userInput.trim() },
+        { withCredentials: true }
+      );
+      setUserInput('');
+      props.onAddNewComment(response.data.data.comment);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <Container>
-      <Image />
+      <Image src={user?.profilePic} />
       <Wrapper>
         <Input
           value={userInput}
           onChange={inputChangeHandler}
           onFocus={inputStateHandler}
-          onBlur={inputStateHandler}
           placeholder="Add a comment..."
         />
         {isInputActive && (
-          <Button isFilled={userInput.length > 0}>COMMENT</Button>
+          <Button onClick={clickHandler} isFilled={userInput.length > 0}>
+            COMMENT
+          </Button>
         )}
       </Wrapper>
     </Container>

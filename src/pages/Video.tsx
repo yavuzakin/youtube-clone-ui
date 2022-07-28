@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import Comments from '../components/Comments';
 import Recommendation from '../components/Recommendation';
 import SingleVideo from '../components/SingleVideo';
+import { Comment } from '../types/Comment';
 import { Video as VideoType } from '../types/Video';
 
 const Container = styled.div`
@@ -30,13 +31,23 @@ const Recommendations = styled.div`
 const Video = () => {
   const videoId = useLocation().pathname.split('/')[2];
   const [video, setVideo] = useState<VideoType>();
+  const [comments, setComments] = useState<Comment[]>([]);
+
+  const addNewCommentHandler = (newComment: Comment) => {
+    setComments((prevState) => [newComment, ...prevState]);
+  };
 
   useEffect(() => {
     const fetchVideo = async () => {
       const response = await axios(`http://localhost:4132/api/v1/videos/${videoId}`);
       setVideo(response.data.data.video);
     };
+    const fetchComments = async () => {
+      const response = await axios(`http://localhost:4132/api/v1/videos/${videoId}/comments`);
+      setComments(response.data.data.comments);
+    };
     fetchVideo();
+    fetchComments();
   }, [videoId]);
 
   return (
@@ -44,7 +55,7 @@ const Video = () => {
       <Wrapper>
         <Content>
           <SingleVideo video={video!} setVideo={setVideo} />
-          <Comments />
+          <Comments comments={comments!} onAddNewComment={addNewCommentHandler} />
         </Content>
         <Recommendations>
           <Recommendation />

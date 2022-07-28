@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import Timeago from 'react-timeago';
+import { Comment as CommentType } from '../types/Comment';
 
 const Container = styled.div`
   display: flex;
@@ -41,19 +43,22 @@ const UserComment = styled.p`
   color: ${({ theme }) => theme.text};
 `;
 
-const Comment = () => {
+interface Props {
+  comment: CommentType;
+}
+
+const Comment: React.FC<Props> = (props) => {
   return (
     <Container>
-      <Image />
+      <Image src={props.comment.user.profilePic} />
       <Wrapper>
         <ChannelName>
-          makunouchi <TimeAgo>11 days ago</TimeAgo>
+          {props.comment?.user.username}{' '}
+          <TimeAgo>
+            <Timeago date={props.comment?.createdAt} />
+          </TimeAgo>
         </ChannelName>
-        <UserComment>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsum itaque
-          praesentium sint ducimus cumque ullam nemo, officiis temporibus minima
-          consequuntur. Lorem ipsum dolor, sit amet consectetur
-        </UserComment>
+        <UserComment>{props.comment?.description}</UserComment>
       </Wrapper>
     </Container>
   );
