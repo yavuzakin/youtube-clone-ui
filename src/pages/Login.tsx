@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { login } from '../store/userActions';
+import GoogleButton from 'react-google-button';
+import { signInWithPopup } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
+
+import { login, loginWithGoogle, register } from '../store/userActions';
 import { useAppDispatch } from '../types/Hooks';
+import { auth, provider } from '../firebase';
 
 const Container = styled.div`
   background-color: ${({ theme }) => theme.bg};
@@ -33,6 +38,7 @@ const Input = styled.input`
   background: transparent;
   padding: 1rem;
   width: 100%;
+  box-sizing: border-box;
 
   &:focus-visible {
     border: 1px solid ${({ theme }) => theme.textSoft};
@@ -45,8 +51,10 @@ const Button = styled.button`
   background-color: ${({ theme }) => theme.bgLighter};
   padding: 1rem;
   width: 100%;
+  box-sizing: border-box;
   margin-top: 0.5rem;
   cursor: pointer;
+  font-size: 1.6rem;
 
   &:hover {
     background-color: ${({ theme }) => theme.soft};
@@ -79,6 +87,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
 
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const usernameLoginChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsernameLogin(e.target.value);
@@ -100,31 +109,63 @@ const Login = () => {
     setEmail(e.target.value);
   };
 
-  const loginHandler = async (e: React.FormEvent) => {
+  const loginHandler = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(login(usernameLogin, passwordLogin));
+    dispatch(login(usernameLogin, passwordLogin, setUsernameLogin, setPasswordLogin, navigate));
   };
 
-  const registerHandler = async (e: React.FormEvent) => {
+  const registerHandler = (e: React.FormEvent) => {
     e.preventDefault();
+    dispatch(register(username, email, password, setUsername, setEmail, setPassword, navigate));
+  };
+
+  const googleLoginHandler = () => {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        dispatch(
+          loginWithGoogle(
+            result.user.displayName!,
+            result.user.email!,
+            result.user.photoURL!,
+            navigate
+          )
+        );
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
     <Container>
       <Form>
         <Title>Sign in</Title>
-        <Input type="text" placeholder="username" onChange={usernameLoginChangeHandler} />
-        <Input type="password" placeholder="password" onChange={passwordLoginChangeHandler} />
+        <Input
+          value={usernameLogin}
+          type="text"
+          placeholder="username"
+          onChange={usernameLoginChangeHandler}
+        />
+        <Input
+          value={passwordLogin}
+          type="password"
+          placeholder="password"
+          onChange={passwordLoginChangeHandler}
+        />
         <Button onClick={loginHandler}>Sign in</Button>
+        <GoogleButton onClick={googleLoginHandler} />
         <Divisor>
           <Hr />
           <Text> or </Text>
           <Hr />
         </Divisor>
         <Title>Sign up</Title>
-        <Input placeholder="username" onChange={usernameChangeHandler} />
-        <Input placeholder="email" onChange={passwordChangeHandler} />
-        <Input placeholder="password" onChange={emailChangeHandler} />
+        <Input value={username} placeholder="username" onChange={usernameChangeHandler} />
+        <Input value={email} placeholder="email" onChange={emailChangeHandler} />
+        <Input
+          value={password}
+          type="password"
+          placeholder="password"
+          onChange={passwordChangeHandler}
+        />
         <Button onClick={registerHandler}>Sign up</Button>
       </Form>
     </Container>

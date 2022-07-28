@@ -29,7 +29,7 @@ export const userSlice = createSlice({
       state.loading = false;
       state.error = true;
     },
-    logout: (state) => {
+    logoutUser: (state) => {
       state.currentUser = null;
       state.loading = false;
       state.error = false;
@@ -37,6 +37,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { loginStart, loginSuccess, loginFailure, logout } = userSlice.actions;
+export const { loginStart, loginSuccess, loginFailure, logoutUser } = userSlice.actions;
 
 export default userSlice.reducer;

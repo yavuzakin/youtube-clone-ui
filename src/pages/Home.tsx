@@ -9,7 +9,7 @@ const Container = styled.div`
   display: flex;
 `;
 
-const Content = styled.h1`
+const Content = styled.div`
   flex: 8;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -33,7 +33,6 @@ const Home: React.FC<Props> = (props) => {
     const fetchData = async () => {
       const res = await axios('http://localhost:4132/api/v1/videos');
       setVideos(res.data.data.videos);
-      console.log(res);
     };
     fetchData();
   }, []);
@@ -45,31 +44,6 @@ const Home: React.FC<Props> = (props) => {
         {videos.map((video) => (
           <Card key={video._id} video={video} size="large" />
         ))}
-        {/* <Card size="large" />
-        <Card size="large" />
-        <Card size="large" />
-        <Card size="large" />
-        <Card size="large" />
-        <Card size="large" />
-        <Card size="large" />
-        <Card size="large" />
-        <Card size="large" />
-        <Card size="large" />
-        <Card size="large" />
-        <Card size="large" />
-        <Card size="large" />
-        <Card size="large" />
-        <Card size="large" />
-        <Card size="large" />
-        <Card size="large" />
-        <Card size="large" />
-        <Card size="large" />
-        <Card size="large" />
-        <Card size="large" />
-        <Card size="large" />
-        <Card size="large" />
-        <Card size="large" />
-        <Card size="large" /> */}
       </Content>
     </Container>
   );

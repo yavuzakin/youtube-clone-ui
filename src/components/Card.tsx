@@ -70,7 +70,10 @@ interface Props {
 
 const Card: React.FC<Props> = (props) => {
   return (
-    <Link to={`/video/${props.video._id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+    <Link
+      to={`/video/${props.video._id}`}
+      style={{ textDecoration: 'none', color: 'inherit', height: 'max-content' }}
+    >
       <Container size={props.size}>
         <Image size={props.size} src={props.video.imgUrl} />
         <Details size={props.size}>

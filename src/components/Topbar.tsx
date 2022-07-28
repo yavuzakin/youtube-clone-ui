@@ -2,10 +2,14 @@ import styled from 'styled-components';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import SearchIcon from '@mui/icons-material/Search';
 import AddVideo from '@mui/icons-material/VideoCallOutlined';
+import Logout from '@mui/icons-material/LogoutOutlined';
+import Account from '@mui/icons-material/AccountBoxOutlined';
 
 import YoutubeLogo from '../images/logo.png';
 import { Link } from 'react-router-dom';
-import { useAppSelector } from '../types/Hooks';
+import { useAppDispatch, useAppSelector } from '../types/Hooks';
+import { useState } from 'react';
+import { logout } from '../store/userActions';
 
 const Container = styled.div`
   display: flex;
@@ -88,6 +92,7 @@ const User = styled.div`
   gap: 2rem;
   color: ${({ theme }) => theme.text};
   font-weight: 500;
+  position: relative;
 `;
 
 const Avatar = styled.img`
@@ -95,10 +100,49 @@ const Avatar = styled.img`
   width: 3.2rem;
   border-radius: 50%;
   background-color: #999;
+  cursor: pointer;
+`;
+
+const DropdownMenu = styled.div`
+  position: absolute;
+  top: 4rem;
+  left: -1rem;
+  background-color: ${({ theme }) => theme.bgLight};
+  color: ${({ theme }) => theme.text};
+  border: 1px solid ${({ theme }) => theme.soft};
+  border-top: none;
+  padding: 1rem 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  justify-content: flex-start;
+`;
+
+const MenuItem = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
 `;
 
 const Topbar = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { currentUser } = useAppSelector((state) => state.user);
+
+  const dispatch = useAppDispatch();
+
+  const clickHandler = () => {
+    setIsMenuOpen((prevState) => !prevState);
+  };
+
+  const logoutHandler = () => {
+    dispatch(logout());
+    setIsMenuOpen(false);
+  };
+
+  const accountClickHandler = () => {
+    setIsMenuOpen(false);
+  };
 
   return (
     <Container>
@@ -117,8 +161,18 @@ const Topbar = () => {
       {currentUser ? (
         <User>
           <AddVideo style={{ fontSize: '2.4rem' }} />
-          <Avatar src={currentUser.profilePic} />
+          <Avatar onClick={clickHandler} src={currentUser.profilePic} />
           {currentUser.username}
+          {isMenuOpen && (
+            <DropdownMenu>
+              <MenuItem onClick={accountClickHandler}>
+                <Account style={{ fontSize: '2rem' }} /> Account
+              </MenuItem>
+              <MenuItem onClick={logoutHandler}>
+                <Logout style={{ fontSize: '2rem' }} /> Logout
+              </MenuItem>
+            </DropdownMenu>
+          )}
         </User>
       ) : (
         <Link to="/login" style={{ textDecoration: 'none' }}>
