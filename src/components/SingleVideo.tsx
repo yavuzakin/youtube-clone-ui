@@ -1,8 +1,16 @@
+import axios from 'axios';
 import styled from 'styled-components';
+import Timeago from 'react-timeago';
 import Like from '@mui/icons-material/ThumbUpOutlined';
+import Liked from '@mui/icons-material/ThumbUp';
 import Dislike from '@mui/icons-material/ThumbDownOutlined';
+import Disliked from '@mui/icons-material/ThumbDown';
 import Share from '@mui/icons-material/ReplyOutlined';
 import Save from '@mui/icons-material/PlaylistAddOutlined';
+import { Video } from '../types/Video';
+import { useAppSelector, useAppDispatch } from '../types/Hooks';
+import { useNavigate } from 'react-router-dom';
+import { loginSuccess } from '../store/userSlice';
 
 const VideoWrapper = styled.div`
   max-width: 128rem;
@@ -98,23 +106,101 @@ const SubscribeButton = styled.button`
   padding: 1rem 1.6rem;
   color: white;
   background-color: #cc0000;
+  cursor: pointer;
 `;
 
-const SingleVideo = () => {
+interface Props {
+  video: Video;
+  setVideo: React.Dispatch<React.SetStateAction<Video | undefined>>;
+}
+
+const SingleVideo: React.FC<Props> = (props) => {
+  const user = useAppSelector((state) => state.user.currentUser);
+
+  let isLiked = false;
+  let isDisliked = false;
+  let isSubscribed = false;
+  let isChannelOwner = false;
+  if (user) {
+    isLiked = props.video?.likes.includes(user._id);
+    isDisliked = props.video?.dislikes.includes(user._id);
+    isSubscribed = user.subscribedUsers.includes(props.video.user._id);
+    isChannelOwner = props.video?.user._id === user._id;
+  }
+
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const likeHandler = async () => {
+    if (!user) navigate('/login');
+    if (isLiked) return;
+    try {
+      const response = await axios.put(
+        `http://localhost:4132/api/v1/videos/like/${props.video._id}`,
+        {},
+        { withCredentials: true }
+      );
+      props.setVideo(response.data.data.video);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const dislikeHandler = async () => {
+    if (!user) navigate('/login');
+    if (isDisliked) return;
+    try {
+      const response = await axios.put(
+        `http://localhost:4132/api/v1/videos/dislike/${props.video._id}`,
+        {},
+        { withCredentials: true }
+      );
+      props.setVideo(response.data.data.video);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const subscribeHandler = async () => {
+    if (!user) navigate('/login');
+    if (isChannelOwner) return;
+    try {
+      const response = await axios.put(
+        `http://localhost:4132/api/v1/users/${isSubscribed ? 'unsubscribe' : 'subscribe'}/${
+          props.video.user._id
+        }`,
+        {},
+        { withCredentials: true }
+      );
+      dispatch(loginSuccess(response.data.data.user));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <VideoWrapper></VideoWrapper>
-      <Title>
-        React Video Sharing App UI Design | Youtube UI Clone with React
-      </Title>
+      <Title>{props.video?.title}</Title>
       <Details>
-        <Info>21.907 görüntüleme ‧ 30 Haz 2022</Info>
+        <Info>
+          {props.video?.views} ‧ <Timeago date={props.video?.createdAt} />
+        </Info>
         <Buttons>
-          <Button>
-            <Like style={{ fontSize: '2.4rem' }} /> 123
+          <Button onClick={likeHandler}>
+            {isLiked ? (
+              <Liked style={{ fontSize: '2.4rem' }} />
+            ) : (
+              <Like style={{ fontSize: '2.4rem' }} />
+            )}
+            {props.video?.likes.length}
           </Button>
-          <Button>
-            <Dislike style={{ fontSize: '2.4rem' }} />
+          <Button onClick={dislikeHandler}>
+            {isDisliked ? (
+              <Disliked style={{ fontSize: '2.4rem' }} />
+            ) : (
+              <Dislike style={{ fontSize: '2.4rem' }} />
+            )}
             DISLIKE
           </Button>
           <Button>
@@ -131,14 +217,16 @@ const SingleVideo = () => {
       <Channel>
         <Image />
         <ChannelInfo>
-          <ChannelName>JavaScript Mastery</ChannelName>
-          <SubscriberCount>111 Subscribers</SubscriberCount>
+          <ChannelName>{props.video?.user.username}</ChannelName>
+          <SubscriberCount>
+            {props.video?.user.subscribers.length}{' '}
+            {props.video?.user.subscribers.length === 0 ? 'subcriber' : 'subcribers'}
+          </SubscriberCount>
         </ChannelInfo>
-        <SubscribeButton>SUBSCRIBE</SubscribeButton>
-        <Description>
-          Video uploading app design using React and Styled Components. Youtube
-          clone design with hooks and functional component. React video player.
-        </Description>
+        <SubscribeButton onClick={subscribeHandler}>
+          {isSubscribed ? 'SUBSCRIBED' : 'SUBSCRIBE'}
+        </SubscribeButton>
+        <Description>{props.video?.description}</Description>
       </Channel>
       <Hr />
     </>
