@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../types/Hooks';
 import { useState } from 'react';
 import { logout } from '../store/userActions';
+import UploadVideo from './UploadVideo';
 
 const Container = styled.div`
   display: flex;
@@ -127,6 +128,7 @@ const MenuItem = styled.div`
 
 const Topbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isUploadVideoModalOpen, setIsUploadVideoModalOpen] = useState(false);
   const { currentUser } = useAppSelector((state) => state.user);
 
   const dispatch = useAppDispatch();
@@ -144,44 +146,54 @@ const Topbar = () => {
     setIsMenuOpen(false);
   };
 
+  const uploadVideoModalHandler = () => {
+    setIsUploadVideoModalOpen((prevState) => !prevState);
+  };
+
   return (
-    <Container>
-      <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-        <Logo>
-          <Image src={YoutubeLogo} />
-          YouTube
-        </Logo>
-      </Link>
-      <Search>
-        <Input placeholder="Search" />
-        <Icon>
-          <SearchIcon style={{ fontSize: '2.4rem' }} />
-        </Icon>
-      </Search>
-      {currentUser ? (
-        <User>
-          <AddVideo style={{ fontSize: '2.4rem' }} />
-          <Avatar onClick={clickHandler} src={currentUser.profilePic} />
-          {currentUser.username}
-          {isMenuOpen && (
-            <DropdownMenu>
-              <MenuItem onClick={accountClickHandler}>
-                <Account style={{ fontSize: '2rem' }} /> Account
-              </MenuItem>
-              <MenuItem onClick={logoutHandler}>
-                <Logout style={{ fontSize: '2rem' }} /> Logout
-              </MenuItem>
-            </DropdownMenu>
-          )}
-        </User>
-      ) : (
-        <Link to="/login" style={{ textDecoration: 'none' }}>
-          <Button>
-            <AccountCircleOutlinedIcon style={{ fontSize: '2.4rem' }} /> SIGN IN
-          </Button>
+    <>
+      <Container>
+        <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <Logo>
+            <Image src={YoutubeLogo} />
+            YouTube
+          </Logo>
         </Link>
-      )}
-    </Container>
+        <Search>
+          <Input placeholder="Search" />
+          <Icon>
+            <SearchIcon style={{ fontSize: '2.4rem' }} />
+          </Icon>
+        </Search>
+        {currentUser ? (
+          <User>
+            <AddVideo
+              style={{ fontSize: '3rem', cursor: 'pointer' }}
+              onClick={uploadVideoModalHandler}
+            />
+            <Avatar onClick={clickHandler} src={currentUser.profilePic} />
+            {currentUser.username}
+            {isMenuOpen && (
+              <DropdownMenu>
+                <MenuItem onClick={accountClickHandler}>
+                  <Account style={{ fontSize: '2rem' }} /> Account
+                </MenuItem>
+                <MenuItem onClick={logoutHandler}>
+                  <Logout style={{ fontSize: '2rem' }} /> Logout
+                </MenuItem>
+              </DropdownMenu>
+            )}
+          </User>
+        ) : (
+          <Link to="/login" style={{ textDecoration: 'none' }}>
+            <Button>
+              <AccountCircleOutlinedIcon style={{ fontSize: '2.4rem' }} /> SIGN IN
+            </Button>
+          </Link>
+        )}
+      </Container>
+      {isUploadVideoModalOpen && <UploadVideo setOpenModal={uploadVideoModalHandler} />}
+    </>
   );
 };
 
