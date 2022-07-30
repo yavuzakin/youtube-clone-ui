@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 import CloseIcon from '@mui/icons-material/Close';
 import { useEffect, useRef, useState } from 'react';
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { useAppSelector } from '../types/Hooks';
+import axios from 'axios';
 
 const Container = styled.div`
   position: absolute;
@@ -79,7 +82,18 @@ const Button = styled.button`
 `;
 
 const FileContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
   position: relative;
+`;
+
+const Percentage = styled.span`
+  color: ${({ theme }) => theme.text};
+`;
+
+const Error = styled.p`
+  color: red;
 `;
 
 interface Props {
@@ -87,16 +101,84 @@ interface Props {
 }
 
 const UploadVideo: React.FC<Props> = (props) => {
+  const user = useAppSelector((state) => state.user.currentUser);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [video, setVideo] = useState<File | null>();
+  const [videoPercentage, setVideoPercentage] = useState(0);
   const [image, setImage] = useState<File | null>();
+  const [imagePercentage, setImagePercentage] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [tags, setTags] = useState<string[]>([]);
+  const [videoUrl, setVideoUrl] = useState('');
+  const [imgUrl, setImgUrl] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     videoRef.current?.load();
   }, [video]);
+
+  useEffect(() => {
+    const postVideo = async () => {
+      try {
+        await axios.post(
+          'http://localhost:4132/api/v1/videos',
+          {
+            title,
+            description,
+            imgUrl,
+            videoUrl,
+            tags,
+          },
+          { withCredentials: true }
+        );
+        props.setOpenModal();
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    imgUrl && videoUrl && postVideo();
+  }, [imgUrl, videoUrl, title, description, tags, props]);
+
+  const uploadFile = (file: File, urlType: string, fileType: string) => {
+    const storage = getStorage();
+    const fileName = user?.username + file.name + new Date().getTime();
+    const storageRef = ref(storage, `${fileType}/` + fileName);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on(
+      'state_changed',
+      (snapshot) => {
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        urlType === 'imgUrl'
+          ? setImagePercentage(Math.round(progress))
+          : setVideoPercentage(Math.round(progress));
+        switch (snapshot.state) {
+          case 'paused':
+            console.log('Upload is paused');
+            break;
+          case 'running':
+            console.log('Upload is running');
+            break;
+          default:
+            break;
+        }
+      },
+      (error) => {
+        // Error handling
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          if (urlType === 'imgUrl') {
+            setImgUrl(downloadURL);
+          } else if (urlType === 'videoUrl') {
+            setVideoUrl(downloadURL);
+          }
+          console.log('File available at', downloadURL);
+        });
+      }
+    );
+  };
 
   const videoChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e && e.target && e.target.files) {
@@ -134,6 +216,23 @@ const UploadVideo: React.FC<Props> = (props) => {
     e.stopPropagation();
   };
 
+  const uploadVideoHandler = () => {
+    let errorMessage = [];
+    !video && errorMessage.push('Video');
+    !image && errorMessage.push('Image');
+    !title && errorMessage.push('Title');
+    !description && errorMessage.push('Description');
+
+    setErrorMessage(errorMessage.join(', '));
+
+    if (errorMessage.join(', ') !== '') {
+      return;
+    }
+
+    uploadFile(video!, 'videoUrl', 'videos');
+    uploadFile(image!, 'imgUrl', 'images');
+  };
+
   return (
     <Container onClick={props.setOpenModal}>
       <Wrapper onClick={preventCapturingHandler}>
@@ -145,10 +244,11 @@ const UploadVideo: React.FC<Props> = (props) => {
           />
         </Header>
         <Body>
-          <Label>Video :</Label>
+          <Label>Video* :</Label>
           <Input type="file" accept="video/*" onChange={videoChangeHandler} />
           {video && (
             <FileContainer>
+              {videoPercentage > 0 && <Percentage>Upload: {videoPercentage}%</Percentage>}
               <CloseIcon
                 onClick={removeVideoHandler}
                 style={{
@@ -156,8 +256,8 @@ const UploadVideo: React.FC<Props> = (props) => {
                   cursor: 'pointer',
                   position: 'absolute',
                   zIndex: '10',
-                  top: '10',
-                  right: '10',
+                  top: `${videoPercentage > 0 ? '4rem' : '1rem'}`,
+                  right: '1rem',
                 }}
               />
               <video ref={videoRef} controls style={{ width: '100%' }}>
@@ -165,17 +265,18 @@ const UploadVideo: React.FC<Props> = (props) => {
               </video>
             </FileContainer>
           )}
-          <Input type="text" placeholder="Title" onChange={titleChangeHandler} />
-          <Description placeholder="Description" rows={8} onChange={descriptionChangeHandler} />
+          <Input type="text" placeholder="Title*" onChange={titleChangeHandler} />
+          <Description placeholder="Description*" rows={8} onChange={descriptionChangeHandler} />
           <Input
             type="text"
             placeholder="Seperate tags with comma.(tag1,tag2,tag3)"
             onChange={tagsChangeHandler}
           />
-          <Label>Image :</Label>
+          <Label>Image* :</Label>
           <Input type="file" accept="image/*" onChange={imageChangeHandler} />
           {image && (
             <FileContainer>
+              {imagePercentage > 0 && <Percentage>Upload: {imagePercentage}%</Percentage>}
               <CloseIcon
                 onClick={removeImageHandler}
                 style={{
@@ -183,14 +284,15 @@ const UploadVideo: React.FC<Props> = (props) => {
                   cursor: 'pointer',
                   position: 'absolute',
                   zIndex: '10',
-                  top: '10',
-                  right: '10',
+                  top: `${imagePercentage > 0 ? '4rem' : '1rem'}`,
+                  right: '1rem',
                 }}
               />
-              <img src={URL.createObjectURL(image)} style={{ width: '100%' }} />
+              <img src={URL.createObjectURL(image)} style={{ width: '100%' }} alt="thumbnail" />
             </FileContainer>
           )}
-          <Button>Upload</Button>
+          {errorMessage && <Error>{errorMessage} field(s) are required.</Error>}
+          <Button onClick={uploadVideoHandler}>Upload</Button>
         </Body>
       </Wrapper>
     </Container>

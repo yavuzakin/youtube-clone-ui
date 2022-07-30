@@ -14,8 +14,11 @@ import { loginSuccess } from '../store/userSlice';
 
 const VideoWrapper = styled.div`
   max-width: 128rem;
-  height: 72rem;
-  background-color: #999;
+  max-height: 72rem;
+  /* background-color: #999; */
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
 `;
 
 const Title = styled.h1`
@@ -180,7 +183,13 @@ const SingleVideo: React.FC<Props> = (props) => {
 
   return (
     <>
-      <VideoWrapper></VideoWrapper>
+      <VideoWrapper>
+        {props.video?.videoUrl && (
+          <video controls autoPlay style={{ width: '100%' }}>
+            <source src={props.video?.videoUrl} type="video/mp4" />
+          </video>
+        )}
+      </VideoWrapper>
       <Title>{props.video?.title}</Title>
       <Details>
         <Info>
@@ -215,7 +224,7 @@ const SingleVideo: React.FC<Props> = (props) => {
       </Details>
       <Hr />
       <Channel>
-        <Image />
+        <Image src={props.video?.user.profilePic} />
         <ChannelInfo>
           <ChannelName>{props.video?.user.username}</ChannelName>
           <SubscriberCount>

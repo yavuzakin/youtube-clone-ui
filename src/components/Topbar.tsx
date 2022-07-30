@@ -22,6 +22,7 @@ const Container = styled.div`
   position: sticky;
   top: 0;
   padding: 0 2.6rem;
+  z-index: 999;
 `;
 
 const Logo = styled.div`
