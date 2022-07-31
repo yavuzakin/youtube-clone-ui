@@ -12,9 +12,9 @@ const Container = styled.div<{ size: string }>`
 `;
 
 const Image = styled.img<{ size: string }>`
-  width: 100%;
+  max-width: 100%;
   flex: ${(props) => props.size === 'small' && '1'};
-  height: ${(props) => (props.size === 'small' ? '9.4rem' : '20.2rem')};
+  height: ${(props) => (props.size === 'small' ? '10rem' : '20.2rem')};
   background-color: #999;
   border-radius: 2px;
 `;
@@ -24,7 +24,7 @@ const Details = styled.div<{ size: string }>`
   flex: ${(props) => props.size === 'small' && '1'};
   display: flex;
   gap: 1rem;
-  align-self: flex-end;
+  align-self: flex-start;
 `;
 
 const ChannelImage = styled.img<{ size: string }>`
@@ -82,7 +82,8 @@ const Card: React.FC<Props> = (props) => {
             <VideoTitle size={props.size}>{props.video.title}</VideoTitle>
             <ChannelName size={props.size}>{props.video.user.username}</ChannelName>
             <ViewsAndCreatedAgo size={props.size}>
-              {props.video.views} views ‧ <TimeAgo date={props.video.createdAt} />
+              {props.video.views} {props.video.views > 1 ? 'views' : 'view'} ‧{' '}
+              <TimeAgo date={props.video.createdAt} />
             </ViewsAndCreatedAgo>
           </Texts>
         </Details>

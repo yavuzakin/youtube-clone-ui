@@ -11,6 +11,7 @@ import { Video } from '../types/Video';
 import { useAppSelector, useAppDispatch } from '../types/Hooks';
 import { useNavigate } from 'react-router-dom';
 import { loginSuccess } from '../store/userSlice';
+import { useEffect, useRef } from 'react';
 
 const VideoWrapper = styled.div`
   max-width: 128rem;
@@ -119,6 +120,11 @@ interface Props {
 
 const SingleVideo: React.FC<Props> = (props) => {
   const user = useAppSelector((state) => state.user.currentUser);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    videoRef.current?.load();
+  }, [props.video.videoUrl]);
 
   let isLiked = false;
   let isDisliked = false;
@@ -185,7 +191,7 @@ const SingleVideo: React.FC<Props> = (props) => {
     <>
       <VideoWrapper>
         {props.video?.videoUrl && (
-          <video controls autoPlay style={{ width: '100%' }}>
+          <video ref={videoRef} controls autoPlay style={{ width: '100%' }}>
             <source src={props.video?.videoUrl} type="video/mp4" />
           </video>
         )}
@@ -193,7 +199,8 @@ const SingleVideo: React.FC<Props> = (props) => {
       <Title>{props.video?.title}</Title>
       <Details>
         <Info>
-          {props.video?.views} ‧ <Timeago date={props.video?.createdAt} />
+          {props.video?.views} {props.video?.views > 1 ? 'views' : 'view'} ‧{' '}
+          <Timeago date={props.video?.createdAt} />
         </Info>
         <Buttons>
           <Button onClick={likeHandler}>

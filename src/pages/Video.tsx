@@ -54,11 +54,11 @@ const Video = () => {
     <Container>
       <Wrapper>
         <Content>
-          <SingleVideo video={video!} setVideo={setVideo} />
-          <Comments comments={comments!} onAddNewComment={addNewCommentHandler} />
+          {video && <SingleVideo video={video} setVideo={setVideo} />}
+          {comments && <Comments comments={comments} onAddNewComment={addNewCommentHandler} />}
         </Content>
         <Recommendations>
-          <Recommendation />
+          <Recommendation tags={video?.tags.join(',')} />
         </Recommendations>
       </Wrapper>
     </Container>
