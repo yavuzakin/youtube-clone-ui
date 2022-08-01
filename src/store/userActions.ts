@@ -31,7 +31,7 @@ export const login = (
         setPassword('');
         navigate('/');
       } catch (err) {
-        dispatch(loginFailure);
+        dispatch(loginFailure());
       }
     };
     sendRequest();
@@ -61,7 +61,7 @@ export const loginWithGoogle = (
         dispatch(loginSuccess(response.data.data.user));
         navigate('/');
       } catch (err) {
-        dispatch(loginFailure);
+        dispatch(loginFailure());
       }
     };
     sendRequest();
@@ -96,7 +96,7 @@ export const register = (
         setPassword('');
         navigate('/');
       } catch (err) {
-        dispatch(loginFailure);
+        dispatch(loginFailure());
       }
     };
     sendRequest();
@@ -113,7 +113,7 @@ export const logout = () => {
         });
         dispatch(logoutUser());
       } catch (err) {
-        dispatch(loginFailure);
+        dispatch(loginFailure());
       }
     };
     sendRequest();
