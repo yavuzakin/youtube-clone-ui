@@ -7,6 +7,7 @@ import { GlobalStyles } from './utils/GlobalStyles';
 import Home from './pages/Home';
 import Video from './pages/Video';
 import Login from './pages/Login';
+import User from './pages/User';
 
 const Container = styled.div`
   font-size: 1.6rem;
@@ -29,16 +30,17 @@ function App() {
             <Route path="/">
               <Route
                 index
-                element={
-                  <Home
-                    isDarkTheme={isDarkTheme}
-                    onThemeChange={themeChangeHandler}
-                  />
-                }
+                element={<Home isDarkTheme={isDarkTheme} onThemeChange={themeChangeHandler} />}
               />
               <Route path="login" element={<Login />} />
               <Route path="video">
                 <Route path=":id" element={<Video />} />
+              </Route>
+              <Route path="channel">
+                <Route
+                  path=":id"
+                  element={<User isDarkTheme={isDarkTheme} onThemeChange={themeChangeHandler} />}
+                />
               </Route>
             </Route>
           </Routes>

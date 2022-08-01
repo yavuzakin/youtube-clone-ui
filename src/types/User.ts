@@ -3,6 +3,7 @@ export interface User {
   username: string;
   email: string;
   profilePic: string;
+  description: string;
   subscribedUsers: string[];
   subscribers: string[];
   updatedAt: Date;

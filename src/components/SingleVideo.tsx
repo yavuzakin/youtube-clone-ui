@@ -16,7 +16,6 @@ import { useEffect, useRef } from 'react';
 const VideoWrapper = styled.div`
   max-width: 128rem;
   max-height: 72rem;
-  /* background-color: #999; */
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -81,6 +80,7 @@ const Image = styled.img`
   height: 4.8rem;
   border-radius: 50%;
   background-color: #999;
+  cursor: pointer;
 `;
 
 const ChannelName = styled.p`
@@ -88,6 +88,7 @@ const ChannelName = styled.p`
   font-weight: 500;
   line-height: 2rem;
   color: ${({ theme }) => theme.text};
+  cursor: pointer;
 `;
 
 const SubscriberCount = styled.p`
@@ -187,6 +188,10 @@ const SingleVideo: React.FC<Props> = (props) => {
     }
   };
 
+  const goToUserPage = () => {
+    navigate(`/channel/${props.video.user._id}`);
+  };
+
   return (
     <>
       <VideoWrapper>
@@ -231,9 +236,9 @@ const SingleVideo: React.FC<Props> = (props) => {
       </Details>
       <Hr />
       <Channel>
-        <Image src={props.video?.user.profilePic} />
+        <Image onClick={goToUserPage} src={props.video?.user.profilePic} />
         <ChannelInfo>
-          <ChannelName>{props.video?.user.username}</ChannelName>
+          <ChannelName onClick={goToUserPage}>{props.video?.user.username}</ChannelName>
           <SubscriberCount>
             {props.video?.user.subscribers.length}{' '}
             {props.video?.user.subscribers.length === 0 ? 'subcriber' : 'subcribers'}

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import Timeago from 'react-timeago';
 import { Comment as CommentType } from '../types/Comment';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
   display: flex;
@@ -13,6 +14,7 @@ const Image = styled.img`
   height: 4rem;
   border-radius: 50%;
   background-color: #999;
+  cursor: pointer;
 `;
 
 const Wrapper = styled.div`
@@ -26,6 +28,7 @@ const ChannelName = styled.span`
   font-weight: 500;
   line-height: 1.8rem;
   color: ${({ theme }) => theme.text};
+  cursor: pointer;
 `;
 
 const TimeAgo = styled.span`
@@ -48,11 +51,17 @@ interface Props {
 }
 
 const Comment: React.FC<Props> = (props) => {
+  const navigate = useNavigate();
+
+  const goToUserPage = () => {
+    navigate(`/channel/${props.comment?.user._id}`);
+  };
+
   return (
     <Container>
-      <Image src={props.comment.user.profilePic} />
+      <Image src={props.comment?.user.profilePic} onClick={goToUserPage} />
       <Wrapper>
-        <ChannelName>
+        <ChannelName onClick={goToUserPage}>
           {props.comment?.user.username}{' '}
           <TimeAgo>
             <Timeago date={props.comment?.createdAt} />
