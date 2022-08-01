@@ -3,7 +3,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useEffect, useRef, useState } from 'react';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { useAppSelector } from '../types/Hooks';
-import axios from 'axios';
+import { createVideo } from '../api/services/Video';
+import { StatusType } from '../types/Common';
 
 const Container = styled.div`
   position: absolute;
@@ -120,21 +121,9 @@ const UploadVideo: React.FC<Props> = (props) => {
 
   useEffect(() => {
     const postVideo = async () => {
-      try {
-        await axios.post(
-          'http://localhost:4132/api/v1/videos',
-          {
-            title,
-            description,
-            imgUrl,
-            videoUrl,
-            tags,
-          },
-          { withCredentials: true }
-        );
+      const response = await createVideo(title, description, imgUrl, videoUrl, tags);
+      if (response?.status === StatusType.SUCCESS) {
         props.setOpenModal();
-      } catch (err) {
-        console.log(err);
       }
     };
     imgUrl && videoUrl && postVideo();

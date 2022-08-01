@@ -1,5 +1,6 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { getRecommendedVideos } from '../api/services/Video';
+import { StatusType } from '../types/Common';
 import { Video } from '../types/Video';
 import Card from './Card';
 
@@ -12,11 +13,9 @@ const Recommendation: React.FC<Props> = (props) => {
 
   useEffect(() => {
     const fetchRecommendedVideos = async () => {
-      try {
-        const response = await axios.get(`http://localhost:4132/api/v1/videos?tags=${props.tags}`);
-        setVideos(response.data.data.videos);
-      } catch (err) {
-        console.log(err);
+      const response = await getRecommendedVideos(props.tags);
+      if (response?.status === StatusType.SUCCESS) {
+        setVideos(response.data?.videos!);
       }
     };
     fetchRecommendedVideos();

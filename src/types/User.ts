@@ -1,3 +1,5 @@
+import { StatusType } from './Common';
+
 export interface User {
   _id: string;
   username: string;
@@ -9,4 +11,20 @@ export interface User {
   updatedAt: Date;
   createdAt: Date;
   __v: number;
+}
+
+export interface UserQueryResponse {
+  status: StatusType;
+  data: {
+    user: User;
+    subscribedTo?: User;
+    unSubscribedFrom?: User;
+  } | null;
+}
+
+export interface AuthQueryResponse {
+  status: StatusType;
+  data: {
+    user: User;
+  };
 }

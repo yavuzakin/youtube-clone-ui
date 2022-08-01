@@ -1,8 +1,9 @@
-import axios from 'axios';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { createComment } from '../api/services/Comment';
 import { Comment } from '../types/Comment';
+import { StatusType } from '../types/Common';
 import { useAppSelector } from '../types/Hooks';
 
 const Container = styled.div`
@@ -77,16 +78,15 @@ const NewComment: React.FC<Props> = (props) => {
   };
 
   const clickHandler = async () => {
-    try {
-      const response = await axios.post(
-        'http://localhost:4132/api/v1/comments/',
-        { video: videoId, description: userInput.trim() },
-        { withCredentials: true }
-      );
+    const response = await createComment(videoId, userInput.trim());
+
+    if (response?.status === StatusType.SUCCESS) {
+      props.onAddNewComment({
+        ...response.data?.comment!,
+        user: { _id: user!._id, username: user!.username, profilePic: user!.profilePic },
+      });
+
       setUserInput('');
-      props.onAddNewComment(response.data.data.comment);
-    } catch (error) {
-      console.log(error);
     }
   };
 

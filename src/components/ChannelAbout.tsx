@@ -45,14 +45,16 @@ const TotalViews = styled.p`
 
 interface Props {
   user: User;
-  totalViews: number;
+  totalViews?: number;
 }
 
 const ChannelAbout: React.FC<Props> = (props) => {
   const date = new Date(props.user?.createdAt);
+
   const joinDate = `Joined ${date.toLocaleString('en-EN', {
     month: 'short',
   })} ${date.getDay()}, ${date.getFullYear()}`;
+
   return (
     <Container>
       <LeftSide>
@@ -62,7 +64,9 @@ const ChannelAbout: React.FC<Props> = (props) => {
       <RightSide>
         <Title>Stats</Title>
         <JoinDate>{joinDate}</JoinDate>
-        {props.totalViews > 0 && <TotalViews>{props.totalViews} views</TotalViews>}
+        {props.totalViews !== undefined && props.totalViews > 0 && (
+          <TotalViews>{props.totalViews} views</TotalViews>
+        )}
       </RightSide>
     </Container>
   );

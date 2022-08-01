@@ -1,4 +1,3 @@
-import axios from 'axios';
 import styled from 'styled-components';
 import Timeago from 'react-timeago';
 import Like from '@mui/icons-material/ThumbUpOutlined';
@@ -12,6 +11,9 @@ import { useAppSelector, useAppDispatch } from '../types/Hooks';
 import { useNavigate } from 'react-router-dom';
 import { loginSuccess } from '../store/userSlice';
 import { useEffect, useRef } from 'react';
+import { dislikeVideo, likeVideo } from '../api/services/Video';
+import { StatusType } from '../types/Common';
+import { subscribeToUser, unSubscribeFromUser } from '../api/services/User';
 
 const VideoWrapper = styled.div`
   max-width: 128rem;
@@ -144,47 +146,37 @@ const SingleVideo: React.FC<Props> = (props) => {
   const likeHandler = async () => {
     if (!user) navigate('/login');
     if (isLiked) return;
-    try {
-      const response = await axios.put(
-        `http://localhost:4132/api/v1/videos/like/${props.video._id}`,
-        {},
-        { withCredentials: true }
-      );
-      props.setVideo(response.data.data.video);
-    } catch (error) {
-      console.log(error);
+
+    const response = await likeVideo(props.video._id);
+    if (response?.status === StatusType.SUCCESS) {
+      props.setVideo(response.data?.video);
     }
   };
 
   const dislikeHandler = async () => {
     if (!user) navigate('/login');
     if (isDisliked) return;
-    try {
-      const response = await axios.put(
-        `http://localhost:4132/api/v1/videos/dislike/${props.video._id}`,
-        {},
-        { withCredentials: true }
-      );
-      props.setVideo(response.data.data.video);
-    } catch (error) {
-      console.log(error);
+
+    const response = await dislikeVideo(props.video._id);
+    if (response?.status === StatusType.SUCCESS) {
+      props.setVideo(response.data?.video);
     }
   };
 
   const subscribeHandler = async () => {
     if (!user) navigate('/login');
     if (isChannelOwner) return;
-    try {
-      const response = await axios.put(
-        `http://localhost:4132/api/v1/users/${isSubscribed ? 'unsubscribe' : 'subscribe'}/${
-          props.video.user._id
-        }`,
-        {},
-        { withCredentials: true }
-      );
-      dispatch(loginSuccess(response.data.data.user));
-    } catch (error) {
-      console.log(error);
+
+    if (isSubscribed) {
+      const response = await unSubscribeFromUser(props.video.user._id);
+      if (response?.status === StatusType.SUCCESS) {
+        dispatch(loginSuccess(response.data?.user!));
+      }
+    } else {
+      const response = await subscribeToUser(props.video.user._id);
+      if (response?.status === StatusType.SUCCESS) {
+        dispatch(loginSuccess(response.data?.user!));
+      }
     }
   };
 

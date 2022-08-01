@@ -6,7 +6,7 @@ import Logout from '@mui/icons-material/LogoutOutlined';
 import Account from '@mui/icons-material/AccountBoxOutlined';
 
 import YoutubeLogo from '../images/logo.png';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../types/Hooks';
 import { useState } from 'react';
 import { logout } from '../store/userActions';
@@ -133,6 +133,7 @@ const Topbar = () => {
   const { currentUser } = useAppSelector((state) => state.user);
 
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const clickHandler = () => {
     setIsMenuOpen((prevState) => !prevState);
@@ -145,6 +146,7 @@ const Topbar = () => {
 
   const accountClickHandler = () => {
     setIsMenuOpen(false);
+    navigate(`/channel/${currentUser?._id}`);
   };
 
   const uploadVideoModalHandler = () => {

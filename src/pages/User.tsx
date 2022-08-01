@@ -1,11 +1,13 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { getUser, subscribeToUser, unSubscribeFromUser } from '../api/services/User';
+import { getVideosOfUser } from '../api/services/Video';
 import ChannelAbout from '../components/ChannelAbout';
 import ChannelVideos from '../components/ChannelVideos';
 import Leftbar from '../components/Leftbar';
 import { loginSuccess } from '../store/userSlice';
+import { StatusType } from '../types/Common';
 import { useAppDispatch, useAppSelector } from '../types/Hooks';
 import { User as UserType } from '../types/User';
 import { Video } from '../types/Video';
@@ -130,11 +132,9 @@ const User: React.FC<Props> = (props) => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      try {
-        const response = await axios(`http://localhost:4132/api/v1/users/${userId}`);
-        setUser(response.data.data.user);
-      } catch (err) {
-        console.log(err);
+      const response = await getUser(userId);
+      if (response?.status === StatusType.SUCCESS) {
+        setUser(response.data?.user);
       }
     };
     fetchUser();
@@ -142,11 +142,9 @@ const User: React.FC<Props> = (props) => {
 
   useEffect(() => {
     const fetchUserVideos = async () => {
-      try {
-        const response = await axios(`http://localhost:4132/api/v1/users/${userId}/videos`);
-        setVideos(response.data.data.videos);
-      } catch (err) {
-        console.log(err);
+      const response = await getVideosOfUser(userId);
+      if (response?.status === StatusType.SUCCESS) {
+        setVideos(response.data?.videos);
       }
     };
     fetchUserVideos();
@@ -160,17 +158,18 @@ const User: React.FC<Props> = (props) => {
 
     if (isChannelOwner) return;
 
-    try {
-      const response = await axios.put(
-        `http://localhost:4132/api/v1/users/${isSubscribed ? 'unsubscribe' : 'subscribe'}/${
-          user!._id
-        }`,
-        {},
-        { withCredentials: true }
-      );
-      dispatch(loginSuccess(response.data.data.user));
-    } catch (error) {
-      console.log(error);
+    if (isSubscribed) {
+      const response = await unSubscribeFromUser(user!._id);
+      if (response?.status === StatusType.SUCCESS) {
+        dispatch(loginSuccess(response.data?.user!));
+        setUser(response.data?.unSubscribedFrom);
+      }
+    } else {
+      const response = await subscribeToUser(user!._id);
+      if (response?.status === StatusType.SUCCESS) {
+        dispatch(loginSuccess(response.data?.user!));
+        setUser(response.data?.subscribedTo);
+      }
     }
   };
 
@@ -208,7 +207,7 @@ const User: React.FC<Props> = (props) => {
           </SecondRow>
         </ProfileHeader>
         {activeTabId === 'tab1' && videos && <ChannelVideos videos={videos} />}
-        {activeTabId === 'tab2' && user && channelTotalViews && (
+        {activeTabId === 'tab2' && user && (
           <ChannelAbout user={user} totalViews={channelTotalViews} />
         )}
       </Content>

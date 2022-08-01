@@ -1,4 +1,5 @@
-import axios from 'axios';
+import { loginRequest, loginWithGoogleRequest, logoutRequest, registerRequest } from '../api/auth';
+import { StatusType } from '../types/Common';
 import type { AppDispatch } from './index';
 import { loginFailure, loginStart, loginSuccess, logoutUser } from './userSlice';
 
@@ -17,20 +18,13 @@ export const login = (
   return async (dispatch: AppDispatch) => {
     const sendRequest = async () => {
       dispatch(loginStart());
-      try {
-        const response = await axios.post(
-          'http://localhost:4132/api/v1/users/login',
-          {
-            username,
-            password,
-          },
-          { withCredentials: true }
-        );
-        dispatch(loginSuccess(response.data.data.user));
+      const response = await loginRequest(username, password);
+      if (response?.status === StatusType.SUCCESS) {
+        dispatch(loginSuccess(response.data?.user!));
         setUsername('');
         setPassword('');
         navigate('/');
-      } catch (err) {
+      } else {
         dispatch(loginFailure());
       }
     };
@@ -47,20 +41,11 @@ export const loginWithGoogle = (
   return async (dispatch: AppDispatch) => {
     const sendRequest = async () => {
       dispatch(loginStart());
-      try {
-        const response = await axios.post(
-          'http://localhost:4132/api/v1/users/google-login',
-          {
-            username,
-            email,
-            password: process.env.REACT_APP_GOOGLE_PASSWORD,
-            profilePic,
-          },
-          { withCredentials: true }
-        );
-        dispatch(loginSuccess(response.data.data.user));
+      const response = await loginWithGoogleRequest(username, email, profilePic);
+      if (response?.status === StatusType.SUCCESS) {
+        dispatch(loginSuccess(response.data?.user!));
         navigate('/');
-      } catch (err) {
+      } else {
         dispatch(loginFailure());
       }
     };
@@ -80,22 +65,14 @@ export const register = (
   return async (dispatch: AppDispatch) => {
     const sendRequest = async () => {
       dispatch(loginStart());
-      try {
-        const response = await axios.post(
-          'http://localhost:4132/api/v1/users/register',
-          {
-            username,
-            email,
-            password,
-          },
-          { withCredentials: true }
-        );
-        dispatch(loginSuccess(response.data.data.user));
+      const response = await registerRequest(username, email, password);
+      if (response?.status === StatusType.SUCCESS) {
+        dispatch(loginSuccess(response.data?.user!));
         setUsername('');
         setEmail('');
         setPassword('');
         navigate('/');
-      } catch (err) {
+      } else {
         dispatch(loginFailure());
       }
     };
@@ -107,12 +84,10 @@ export const logout = () => {
   return async (dispatch: AppDispatch) => {
     const sendRequest = async () => {
       dispatch(loginStart());
-      try {
-        await axios('http://localhost:4132/api/v1/users/logout', {
-          withCredentials: true,
-        });
+      const response = await logoutRequest();
+      if (response?.status === StatusType.SUCCESS) {
         dispatch(logoutUser());
-      } catch (err) {
+      } else {
         dispatch(loginFailure());
       }
     };

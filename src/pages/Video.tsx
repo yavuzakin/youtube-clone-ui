@@ -1,7 +1,8 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import { getCommentsOfVideo } from '../api/services/Comment';
+import { getVideo } from '../api/services/Video';
 import Comments from '../components/Comments';
 import Recommendation from '../components/Recommendation';
 import SingleVideo from '../components/SingleVideo';
@@ -39,12 +40,12 @@ const Video = () => {
 
   useEffect(() => {
     const fetchVideo = async () => {
-      const response = await axios(`http://localhost:4132/api/v1/videos/${videoId}`);
-      setVideo(response.data.data.video);
+      const response = await getVideo(videoId);
+      setVideo(response?.data?.video);
     };
     const fetchComments = async () => {
-      const response = await axios(`http://localhost:4132/api/v1/videos/${videoId}/comments`);
-      setComments(response.data.data.comments);
+      const response = await getCommentsOfVideo(videoId);
+      setComments(response?.data?.comments!);
     };
     fetchVideo();
     fetchComments();

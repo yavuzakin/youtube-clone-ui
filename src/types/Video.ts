@@ -1,3 +1,5 @@
+import { StatusType } from './Common';
+
 export interface Video {
   _id: string;
   user: {
@@ -17,4 +19,13 @@ export interface Video {
   createdAt: Date;
   updatedAt: Date;
   __v: number;
+}
+
+export interface VideoQueryResponse {
+  status: StatusType;
+  results?: number;
+  data: {
+    videos?: Video[];
+    video?: Video;
+  } | null;
 }
