@@ -31,7 +31,7 @@ const Title = styled.h2`
   margin-bottom: 1rem;
 `;
 
-const Input = styled.input`
+const Input = styled.input<{ error?: boolean }>`
   outline: none;
   border: 1px solid ${({ theme }) => theme.bgLighter};
   color: ${({ theme }) => theme.text};
@@ -41,7 +41,7 @@ const Input = styled.input`
   box-sizing: border-box;
 
   &:focus-visible {
-    border: 1px solid ${({ theme }) => theme.textSoft};
+    border: 1px solid ${({ theme, error }) => (error ? 'red' : theme.textSoft)};
   }
 `;
 
@@ -89,6 +89,16 @@ const Login = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+  const isUsernameError = username.length < 4;
+  const isPasswordError = password.length < 8;
+
+  const isEmailCorrect =
+    email.split('@').length === 2 &&
+    email.split('@')[0].length > 2 &&
+    email.split('@')[1].length > 3 &&
+    email.split('@')[1].split('.').length === 2 &&
+    email.split('@')[1].split('.')[1].length > 1;
+
   const usernameLoginChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsernameLogin(e.target.value);
   };
@@ -116,6 +126,7 @@ const Login = () => {
 
   const registerHandler = (e: React.FormEvent) => {
     e.preventDefault();
+    if (isUsernameError || isPasswordError || !isEmailCorrect) return;
     dispatch(register(username, email, password, setUsername, setEmail, setPassword, navigate));
   };
 
@@ -158,9 +169,20 @@ const Login = () => {
           <Hr />
         </Divisor>
         <Title>Sign up</Title>
-        <Input value={username} placeholder="username" onChange={usernameChangeHandler} />
-        <Input value={email} placeholder="email" onChange={emailChangeHandler} />
         <Input
+          error={username.length < 4}
+          value={username}
+          placeholder="username"
+          onChange={usernameChangeHandler}
+        />
+        <Input
+          error={!isEmailCorrect}
+          value={email}
+          placeholder="email"
+          onChange={emailChangeHandler}
+        />
+        <Input
+          error={password.length < 8}
           value={password}
           type="password"
           placeholder="password"
