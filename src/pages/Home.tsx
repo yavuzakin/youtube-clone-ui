@@ -22,12 +22,7 @@ const Content = styled.div`
   background-color: ${({ theme }) => theme.bg};
 `;
 
-interface Props {
-  isDarkTheme: boolean;
-  onThemeChange: () => void;
-}
-
-const Home: React.FC<Props> = (props) => {
+const Home = () => {
   const [videos, setVideos] = useState<Video[]>();
 
   useEffect(() => {
@@ -40,7 +35,7 @@ const Home: React.FC<Props> = (props) => {
 
   return (
     <Container>
-      <Leftbar isDarkTheme={props.isDarkTheme} onThemeChange={props.onThemeChange} />
+      <Leftbar />
       <Content>
         {videos?.map((video) => (
           <Card key={video._id} video={video} size="large" />

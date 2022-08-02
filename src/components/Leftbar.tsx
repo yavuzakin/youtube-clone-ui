@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 // Icons
@@ -19,8 +18,9 @@ import HelpOutlined from '@mui/icons-material/HelpOutlineOutlined';
 import ModeOutlined from '@mui/icons-material/SettingsBrightnessOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 
-import { useAppSelector } from '../types/Hooks';
+import { useAppDispatch, useAppSelector } from '../types/Hooks';
 import Subscriptions from './Subscriptions';
+import { updateTheme } from '../store/themeSlice';
 
 const Container = styled.div`
   flex: 1;
@@ -72,13 +72,15 @@ const Button = styled.button`
   gap: 1rem;
 `;
 
-interface Props {
-  isDarkTheme: boolean;
-  onThemeChange: () => void;
-}
-
-const Leftbar: React.FC<Props> = (props) => {
+const Leftbar = () => {
   const { currentUser } = useAppSelector((state) => state.user);
+  const { isDarkTheme } = useAppSelector((state) => state.theme);
+
+  const dispatch = useAppDispatch();
+
+  const themeChangeHandler = () => {
+    dispatch(updateTheme());
+  };
 
   return (
     <Container>
@@ -154,9 +156,9 @@ const Leftbar: React.FC<Props> = (props) => {
         <HelpOutlined style={{ fontSize: '2.4rem' }} />
         Help
       </Item>
-      <Item onClick={props.onThemeChange}>
+      <Item onClick={themeChangeHandler}>
         <ModeOutlined style={{ fontSize: '2.4rem' }} />
-        {props.isDarkTheme ? 'Light' : 'Dark'} Mode
+        {isDarkTheme ? 'Light' : 'Dark'} Mode
       </Item>
     </Container>
   );

@@ -103,12 +103,7 @@ const tabs = [
   { id: 'tab2', name: 'ABOUT' },
 ];
 
-interface Props {
-  isDarkTheme: boolean;
-  onThemeChange: () => void;
-}
-
-const User: React.FC<Props> = (props) => {
+const User = () => {
   const userId = useLocation().pathname.split('/')[2];
 
   const [user, setUser] = useState<UserType>();
@@ -175,7 +170,7 @@ const User: React.FC<Props> = (props) => {
 
   return (
     <Container>
-      <Leftbar isDarkTheme={props.isDarkTheme} onThemeChange={props.onThemeChange} />
+      <Leftbar />
       <Content>
         <CoverPicture />
         <ProfileHeader>

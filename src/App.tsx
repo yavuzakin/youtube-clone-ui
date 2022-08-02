@@ -8,17 +8,14 @@ import Home from './pages/Home';
 import Video from './pages/Video';
 import Login from './pages/Login';
 import User from './pages/User';
+import { useAppSelector } from './types/Hooks';
 
 const Container = styled.div`
   font-size: 1.6rem;
 `;
 
 function App() {
-  const [isDarkTheme, setIsDarkTheme] = useState(true);
-
-  const themeChangeHandler = () => {
-    setIsDarkTheme((prevState) => !prevState);
-  };
+  const isDarkTheme = useAppSelector((state) => state.theme.isDarkTheme);
 
   return (
     <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
@@ -28,19 +25,13 @@ function App() {
           <Topbar />
           <Routes>
             <Route path="/">
-              <Route
-                index
-                element={<Home isDarkTheme={isDarkTheme} onThemeChange={themeChangeHandler} />}
-              />
+              <Route index element={<Home />} />
               <Route path="login" element={<Login />} />
               <Route path="video">
                 <Route path=":id" element={<Video />} />
               </Route>
               <Route path="channel">
-                <Route
-                  path=":id"
-                  element={<User isDarkTheme={isDarkTheme} onThemeChange={themeChangeHandler} />}
-                />
+                <Route path=":id" element={<User />} />
               </Route>
             </Route>
           </Routes>
