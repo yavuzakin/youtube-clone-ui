@@ -13,9 +13,10 @@ const Content = styled.div`
   flex: 8;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  column-gap: 2rem;
+  justify-items: center;
+  column-gap: 1rem;
   row-gap: 4rem;
-  padding: 2rem 8rem;
+  padding: 2rem 9rem;
   font-size: 56px;
   color: ${({ theme }) => theme.textDark};
   background-color: ${({ theme }) => theme.bg};

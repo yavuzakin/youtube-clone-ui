@@ -20,6 +20,7 @@ import ModeOutlined from '@mui/icons-material/SettingsBrightnessOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 
 import { useAppSelector } from '../types/Hooks';
+import Subscriptions from './Subscriptions';
 
 const Container = styled.div`
   flex: 1;
@@ -30,6 +31,7 @@ const Container = styled.div`
   top: 5.6rem;
   padding: 0 2.6rem;
   font-size: 1.4rem;
+  overflow-y: scroll;
 `;
 
 const Item = styled.div`
@@ -102,19 +104,19 @@ const Leftbar: React.FC<Props> = (props) => {
         History
       </Item>
       <Hr />
-      {!currentUser && (
-        <>
-          <Login>
-            Sign in to like videos, comment, and subscribe
-            <Link to="/login" style={{ textDecoration: 'none' }}>
-              <Button>
-                <AccountCircleOutlinedIcon style={{ fontSize: '2.4rem' }} /> SIGN IN
-              </Button>
-            </Link>
-          </Login>
-          <Hr />
-        </>
+      {currentUser ? (
+        <Subscriptions subscribedUsers={currentUser.subscribedUsers} />
+      ) : (
+        <Login>
+          Sign in to like videos, comment, and subscribe
+          <Link to="/login" style={{ textDecoration: 'none' }}>
+            <Button>
+              <AccountCircleOutlinedIcon style={{ fontSize: '2.4rem' }} /> SIGN IN
+            </Button>
+          </Link>
+        </Login>
       )}
+      <Hr />
       <Item>
         <MusicOutlined style={{ fontSize: '2.4rem' }} />
         Music
