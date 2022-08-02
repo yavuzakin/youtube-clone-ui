@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import SearchIcon from '@mui/icons-material/Search';
 import AddVideo from '@mui/icons-material/VideoCallOutlined';
@@ -11,6 +11,12 @@ import { useAppDispatch, useAppSelector } from '../types/Hooks';
 import { useState } from 'react';
 import { logout } from '../store/userActions';
 import UploadVideo from './UploadVideo';
+
+const GlobalStyle = createGlobalStyle<{ isUploadVideoModalOpen: boolean }>`
+  body {
+    overflow: ${({ isUploadVideoModalOpen }) => isUploadVideoModalOpen && 'hidden'};
+  }
+`;
 
 const Container = styled.div`
   display: flex;
@@ -150,11 +156,14 @@ const Topbar = () => {
   };
 
   const uploadVideoModalHandler = () => {
+    const bodyElement = document.querySelector('body') as HTMLBodyElement;
+    bodyElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
     setIsUploadVideoModalOpen((prevState) => !prevState);
   };
 
   return (
     <>
+      <GlobalStyle isUploadVideoModalOpen={isUploadVideoModalOpen} />
       <Container>
         <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
           <Logo>
