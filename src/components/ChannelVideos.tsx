@@ -135,7 +135,7 @@ const ChannelVideos: React.FC<Props> = (props) => {
           </Header>
           <Content>
             {props.videos?.map((video) => (
-              <Card key={video._id} video={video} size="medium" />
+              <Card key={video._id} video={video} size="small" alignment="vertical" />
             ))}
           </Content>
         </>

@@ -1,8 +1,15 @@
 import { useEffect, useState } from 'react';
+import styled from 'styled-components';
 import { getRecommendedVideos } from '../api/services/Video';
 import { StatusType } from '../types/Common';
 import { Video } from '../types/Video';
 import Card from './Card';
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+`;
 
 interface Props {
   tags?: string;
@@ -21,11 +28,11 @@ const Recommendation: React.FC<Props> = (props) => {
     fetchRecommendedVideos();
   }, [props.tags]);
   return (
-    <>
+    <Container>
       {videos.map((video) => (
-        <Card key={video?._id} size="small" video={video} />
+        <Card key={video?._id} size="xsmall" alignment="horizontal" video={video} />
       ))}
-    </>
+    </Container>
   );
 };
 

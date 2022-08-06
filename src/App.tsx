@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Topbar from './components/Topbar';
@@ -9,6 +8,7 @@ import Video from './pages/Video';
 import Login from './pages/Login';
 import User from './pages/User';
 import { useAppSelector } from './types/Hooks';
+import Results from './pages/Results';
 
 const Container = styled.div`
   font-size: 1.6rem;
@@ -27,6 +27,7 @@ function App() {
             <Route path="/">
               <Route index element={<Home />} />
               <Route path="login" element={<Login />} />
+              <Route path="results" element={<Results />} />
               <Route path="video">
                 <Route path=":id" element={<Video />} />
               </Route>

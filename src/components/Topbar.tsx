@@ -8,7 +8,7 @@ import Account from '@mui/icons-material/AccountBoxOutlined';
 import YoutubeLogo from '../images/logo.png';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../types/Hooks';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { logout } from '../store/userActions';
 import UploadVideo from './UploadVideo';
 
@@ -137,6 +137,7 @@ const Topbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUploadVideoModalOpen, setIsUploadVideoModalOpen] = useState(false);
   const { currentUser } = useAppSelector((state) => state.user);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -161,6 +162,11 @@ const Topbar = () => {
     setIsUploadVideoModalOpen((prevState) => !prevState);
   };
 
+  const searchHandler = () => {
+    const query = inputRef.current!.value.trim();
+    query && navigate(`/results?q=${query}`);
+  };
+
   return (
     <>
       <GlobalStyle isUploadVideoModalOpen={isUploadVideoModalOpen} />
@@ -172,8 +178,8 @@ const Topbar = () => {
           </Logo>
         </Link>
         <Search>
-          <Input placeholder="Search" />
-          <Icon>
+          <Input placeholder="Search" ref={inputRef} />
+          <Icon onClick={searchHandler}>
             <SearchIcon style={{ fontSize: '2.4rem' }} />
           </Icon>
         </Search>

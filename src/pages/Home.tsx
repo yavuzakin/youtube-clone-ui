@@ -38,7 +38,7 @@ const Home = () => {
       <Leftbar />
       <Content>
         {videos?.map((video) => (
-          <Card key={video._id} video={video} size="large" />
+          <Card key={video._id} video={video} size="medium" alignment="vertical" />
         ))}
       </Content>
     </Container>

@@ -58,6 +58,15 @@ export const getRecommendedVideos = async (tags?: string) => {
   }
 };
 
+export const getSearchedVideos = async (query: string) => {
+  try {
+    const response = await instance.get<VideoQueryResponse>(`videos?query=${query}`);
+    return response.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const likeVideo = async (videoId: string) => {
   try {
     const response = await instance.put<VideoQueryResponse>(`videos/like/${videoId}`, {});
