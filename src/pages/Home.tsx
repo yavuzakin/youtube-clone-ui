@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { getAllVideos } from '../api/services/Video';
+import { getAllVideos, getVideosOFSubscribedChannels } from '../api/services/Video';
 import Card from '../components/Card';
 import Leftbar from '../components/Leftbar';
 import { Video } from '../types/Video';
@@ -16,13 +16,16 @@ const Content = styled.div`
   justify-items: center;
   column-gap: 1rem;
   row-gap: 4rem;
-  padding: 2rem 9rem;
-  font-size: 56px;
+  padding: 2rem 12rem;
   color: ${({ theme }) => theme.textDark};
   background-color: ${({ theme }) => theme.bg};
 `;
 
-const Home = () => {
+interface Props {
+  page: 'home' | 'subscribed-channels-videos';
+}
+
+const Home: React.FC<Props> = (props) => {
   const [videos, setVideos] = useState<Video[]>();
 
   useEffect(() => {
@@ -30,8 +33,14 @@ const Home = () => {
       const response = await getAllVideos();
       setVideos(response?.data?.videos);
     };
-    fetchVideos();
-  }, []);
+    const fetchVideosOfSubscribedChannels = async () => {
+      const response = await getVideosOFSubscribedChannels();
+      setVideos(response?.data?.videos);
+    };
+
+    props.page === 'home' && fetchVideos();
+    props.page === 'subscribed-channels-videos' && fetchVideosOfSubscribedChannels();
+  }, [props.page]);
 
   return (
     <Container>

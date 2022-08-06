@@ -25,7 +25,11 @@ function App() {
           <Topbar />
           <Routes>
             <Route path="/">
-              <Route index element={<Home />} />
+              <Route index element={<Home page="home" />} />
+              <Route
+                path="subscribed-channels-videos"
+                element={<Home page="subscribed-channels-videos" />}
+              />
               <Route path="login" element={<Login />} />
               <Route path="results" element={<Results />} />
               <Route path="video">

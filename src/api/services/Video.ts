@@ -49,6 +49,15 @@ export const getVideosOfUser = async (userId: string) => {
   }
 };
 
+export const getVideosOFSubscribedChannels = async () => {
+  try {
+    const response = await instance.get<VideoQueryResponse>('videos/subscribed-channels');
+    return response.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const getRecommendedVideos = async (tags?: string) => {
   try {
     const response = await instance.get<VideoQueryResponse>(`videos?tags=${tags}`);

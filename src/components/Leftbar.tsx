@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 // Icons
 import HomeOutlined from '@mui/icons-material/HomeOutlined';
 import ExploreOutlined from '@mui/icons-material/ExploreOutlined';
@@ -78,13 +78,28 @@ const Leftbar = () => {
 
   const dispatch = useAppDispatch();
 
+  const navigate = useNavigate();
+
   const themeChangeHandler = () => {
     dispatch(updateTheme());
   };
 
+  const goToSubVideosPage = () => {
+    if (currentUser) {
+      navigate('/subscribed-channels-videos');
+    } else {
+      navigate('/login');
+    }
+  };
+
+  const goToHomePage = () => {
+    console.log('go to home page');
+    navigate('/');
+  };
+
   return (
     <Container>
-      <Item>
+      <Item onClick={goToHomePage}>
         <HomeOutlined style={{ fontSize: '2.4rem' }} />
         Home
       </Item>
@@ -92,7 +107,7 @@ const Leftbar = () => {
         <ExploreOutlined style={{ fontSize: '2.4rem' }} />
         Explore
       </Item>
-      <Item>
+      <Item onClick={goToSubVideosPage}>
         <SubscriptionsOutlined style={{ fontSize: '2.4rem' }} />
         Subscriptions
       </Item>
