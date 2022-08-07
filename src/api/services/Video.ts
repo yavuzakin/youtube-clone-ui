@@ -31,6 +31,15 @@ export const getAllVideos = async () => {
   }
 };
 
+export const deleteVideo = async (id: string) => {
+  try {
+    const response = await instance.delete<VideoQueryResponse>(`videos/${id}`);
+    return response.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const getVideo = async (id: string) => {
   try {
     const response = await instance.get<VideoQueryResponse>(`videos/${id}`);

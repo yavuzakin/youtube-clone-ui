@@ -1,7 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import TimeAgo from 'react-timeago';
+import DeleteIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { Video } from '../types/Video';
+import { useState } from 'react';
 
 const Container = styled.div<{ size: string; alignment: string }>`
   display: flex;
@@ -9,6 +11,7 @@ const Container = styled.div<{ size: string; alignment: string }>`
   align-items: flex-start;
   gap: ${({ size }) => (size === 'large' ? '1.6rem' : size === 'medium' ? '1.2rem' : '0.8rem')};
   max-width: 100%;
+  position: relative;
 `;
 
 const Image = styled.img<{ size: string }>`
@@ -101,13 +104,30 @@ const Description = styled.p<{ size: string }>`
   display: ${({ size }) => size !== 'large' && 'none'};
 `;
 
+const DeleteIconWrapper = styled.div`
+  color: white;
+  background-color: #ff0000;
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border-radius: 50%;
+`;
+
 interface Props {
   video: Video;
   alignment: 'vertical' | 'horizontal';
   size: 'xsmall' | 'small' | 'medium' | 'large';
+  isChannelOwner?: boolean;
+  onVideoDelete?: (videoId: string) => Promise<void>;
 }
 
 const Card: React.FC<Props> = (props) => {
+  const [isHovered, setIsHovered] = useState(false);
   const navigate = useNavigate();
 
   const goToVideoPage = () => {
@@ -118,8 +138,21 @@ const Card: React.FC<Props> = (props) => {
     navigate(`/channel/${props.video.user._id}`);
   };
 
+  const hoverHandler = () => {
+    setIsHovered((prevState) => !prevState);
+  };
+
+  const deleteVideoHandler = () => {
+    props.onVideoDelete!(props.video._id);
+  };
+
   return (
-    <Container size={props.size} alignment={props.alignment}>
+    <Container
+      size={props.size}
+      alignment={props.alignment}
+      onMouseEnter={hoverHandler}
+      onMouseLeave={hoverHandler}
+    >
       <Image size={props.size} src={props.video.imgUrl} onClick={goToVideoPage} />
       <Details size={props.size}>
         <ChannelImage
@@ -139,6 +172,11 @@ const Card: React.FC<Props> = (props) => {
         </ViewsAndCreatedAgo>
         <Description size={props.size}>{props.video.description}</Description>
       </Details>
+      {props.isChannelOwner && isHovered && (
+        <DeleteIconWrapper onClick={deleteVideoHandler}>
+          <DeleteIcon style={{ fontSize: '2rem' }} />
+        </DeleteIconWrapper>
+      )}
     </Container>
   );
 };

@@ -6,7 +6,7 @@ import EditIcon from '@mui/icons-material/EditOutlined';
 import CheckIcon from '@mui/icons-material/CheckOutlined';
 import CloseIcon from '@mui/icons-material/Close';
 import { getUser, subscribeToUser, unSubscribeFromUser, updateUser } from '../api/services/User';
-import { getVideosOfUser } from '../api/services/Video';
+import { deleteVideo, getVideosOfUser } from '../api/services/Video';
 import ChannelAbout from '../components/ChannelAbout';
 import ChannelVideos from '../components/ChannelVideos';
 import Leftbar from '../components/Leftbar';
@@ -289,6 +289,11 @@ const User = () => {
     }
   };
 
+  const videoDeleteHandler = async (videoId: string) => {
+    await deleteVideo(videoId);
+    setVideos((prevState) => prevState?.filter((video) => video._id !== videoId));
+  };
+
   return (
     <Container>
       <Leftbar />
@@ -344,7 +349,13 @@ const User = () => {
             ))}
           </SecondRow>
         </ProfileHeader>
-        {activeTabId === 'tab1' && videos && <ChannelVideos videos={videos} />}
+        {activeTabId === 'tab1' && videos && (
+          <ChannelVideos
+            videos={videos}
+            isChannelOwner={isChannelOwner}
+            onVideoDelete={videoDeleteHandler}
+          />
+        )}
         {activeTabId === 'tab2' && user && (
           <ChannelAbout
             user={user}

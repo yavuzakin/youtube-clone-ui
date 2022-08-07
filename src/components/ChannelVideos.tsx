@@ -87,6 +87,8 @@ const modalItems = [
 
 interface Props {
   videos: Video[];
+  isChannelOwner: boolean;
+  onVideoDelete: (videoId: string) => Promise<void>;
 }
 
 const ChannelVideos: React.FC<Props> = (props) => {
@@ -135,7 +137,14 @@ const ChannelVideos: React.FC<Props> = (props) => {
           </Header>
           <Content>
             {props.videos?.map((video) => (
-              <Card key={video._id} video={video} size="small" alignment="vertical" />
+              <Card
+                key={video._id}
+                video={video}
+                size="small"
+                alignment="vertical"
+                isChannelOwner={props.isChannelOwner}
+                onVideoDelete={props.onVideoDelete}
+              />
             ))}
           </Content>
         </>
