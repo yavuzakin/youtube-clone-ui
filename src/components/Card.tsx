@@ -39,10 +39,11 @@ const Details = styled.div<{ size: string }>`
 const ChannelImage = styled.img<{ size: string }>`
   display: ${({ size }) => (size === 'small' ? 'none' : size === 'xsmall' && 'none')};
   height: ${({ size }) => (size === 'large' ? '2.4rem' : '3.6rem')};
-  min-width: ${({ size }) => (size === 'large' ? '2.4rem' : '3.6rem')};
+  width: ${({ size }) => (size === 'large' ? '2.4rem' : '3.6rem')};
   margin-top: ${({ size }) => size === 'large' && '1.2rem'};
   margin-bottom: ${({ size }) => size === 'large' && '1.2rem'};
   border-radius: 50%;
+  object-fit: cover;
   background-color: #999;
   cursor: pointer;
 `;

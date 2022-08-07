@@ -28,3 +28,8 @@ export interface AuthQueryResponse {
     user: User;
   };
 }
+
+export interface UserUpdateModel {
+  profilePic?: string;
+  description?: string;
+}

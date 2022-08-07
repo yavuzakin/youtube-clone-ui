@@ -107,6 +107,7 @@ const Avatar = styled.img`
   height: 3.2rem;
   width: 3.2rem;
   border-radius: 50%;
+  object-fit: cover;
   background-color: #999;
   cursor: pointer;
 `;
