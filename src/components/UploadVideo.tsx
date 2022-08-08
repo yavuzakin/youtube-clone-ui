@@ -5,7 +5,7 @@ import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/
 import { useAppSelector } from '../types/Hooks';
 import { createVideo } from '../api/services/Video';
 import { StatusType } from '../types/Common';
-import { toast } from 'react-toastify';
+import { Id, toast } from 'react-toastify';
 
 const Container = styled.div`
   position: absolute;
@@ -130,6 +130,8 @@ const UploadVideo: React.FC<Props> = (props) => {
   const [imgUrl, setImgUrl] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
+  let toastId: Id;
+
   useEffect(() => {
     videoRef.current?.load();
   }, [video]);
@@ -138,6 +140,7 @@ const UploadVideo: React.FC<Props> = (props) => {
     const postVideo = async () => {
       const response = await createVideo(title, description, imgUrl, videoUrl, tags);
       if (response?.status === StatusType.SUCCESS) {
+        toast.dismiss(toastId);
         toast.success('Uploaded video successfully', {
           position: 'bottom-left',
         });
@@ -162,10 +165,8 @@ const UploadVideo: React.FC<Props> = (props) => {
           : setVideoPercentage(Math.round(progress));
         switch (snapshot.state) {
           case 'paused':
-            console.log('Upload is paused');
             break;
           case 'running':
-            console.log('Upload is running');
             break;
           default:
             break;
@@ -181,7 +182,6 @@ const UploadVideo: React.FC<Props> = (props) => {
           } else if (urlType === 'videoUrl') {
             setVideoUrl(downloadURL);
           }
-          console.log('File available at', downloadURL);
         });
       }
     );
@@ -235,6 +235,8 @@ const UploadVideo: React.FC<Props> = (props) => {
     if (errorMessage.join(', ') !== '') {
       return;
     }
+
+    toastId = toast.info('Uploading the video...', { position: 'bottom-left', autoClose: false });
 
     uploadFile(video!, 'videoUrl', 'videos');
     uploadFile(image!, 'imgUrl', 'images');
