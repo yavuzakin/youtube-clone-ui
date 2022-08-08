@@ -1,5 +1,7 @@
+import { AxiosError } from 'axios';
+import { toast } from 'react-toastify';
 import { loginRequest, loginWithGoogleRequest, logoutRequest, registerRequest } from '../api/auth';
-import { StatusType } from '../types/Common';
+import { ErrorType, StatusType } from '../types/Common';
 import type { AppDispatch } from './index';
 import { loginFailure, loginStart, loginSuccess, logoutUser } from './userSlice';
 
@@ -18,14 +20,21 @@ export const login = (
   return async (dispatch: AppDispatch) => {
     const sendRequest = async () => {
       dispatch(loginStart());
-      const response = await loginRequest(username, password);
-      if (response?.status === StatusType.SUCCESS) {
-        dispatch(loginSuccess(response.data?.user!));
-        setUsername('');
-        setPassword('');
-        navigate('/');
-      } else {
+      try {
+        const response = await loginRequest(username, password);
+        if (response?.status === StatusType.SUCCESS) {
+          toast.success('Logged in successfully');
+          dispatch(loginSuccess(response.data?.user!));
+          setUsername('');
+          setPassword('');
+          navigate('/');
+        } else {
+          dispatch(loginFailure());
+        }
+      } catch (error) {
+        const err = error as AxiosError<ErrorType>;
         dispatch(loginFailure());
+        toast.error(err.response?.data.message);
       }
     };
     sendRequest();
@@ -44,6 +53,7 @@ export const loginWithGoogle = (
       const response = await loginWithGoogleRequest(username, email, profilePic);
       if (response?.status === StatusType.SUCCESS) {
         dispatch(loginSuccess(response.data?.user!));
+        toast.success('Logged in successfully');
         navigate('/');
       } else {
         dispatch(loginFailure());
@@ -65,15 +75,22 @@ export const register = (
   return async (dispatch: AppDispatch) => {
     const sendRequest = async () => {
       dispatch(loginStart());
-      const response = await registerRequest(username, email, password);
-      if (response?.status === StatusType.SUCCESS) {
-        dispatch(loginSuccess(response.data?.user!));
-        setUsername('');
-        setEmail('');
-        setPassword('');
-        navigate('/');
-      } else {
+      try {
+        const response = await registerRequest(username, email, password);
+        if (response?.status === StatusType.SUCCESS) {
+          dispatch(loginSuccess(response.data?.user!));
+          toast.success('Registered successfully');
+          setUsername('');
+          setEmail('');
+          setPassword('');
+          navigate('/');
+        } else {
+          dispatch(loginFailure());
+        }
+      } catch (error) {
+        const err = error as AxiosError<ErrorType>;
         dispatch(loginFailure());
+        toast.error(err.response?.data.message);
       }
     };
     sendRequest();
@@ -87,6 +104,7 @@ export const logout = () => {
       const response = await logoutRequest();
       if (response?.status === StatusType.SUCCESS) {
         dispatch(logoutUser());
+        toast.success('Logged out successfully');
       } else {
         dispatch(loginFailure());
       }

@@ -3,3 +3,8 @@ export enum StatusType {
   FAIL = 'fail',
   ERROR = 'error',
 }
+
+export interface ErrorType {
+  status: StatusType;
+  message: string;
+}

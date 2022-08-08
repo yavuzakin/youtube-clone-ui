@@ -5,6 +5,7 @@ import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/
 import { useAppSelector } from '../types/Hooks';
 import { createVideo } from '../api/services/Video';
 import { StatusType } from '../types/Common';
+import { toast } from 'react-toastify';
 
 const Container = styled.div`
   position: absolute;
@@ -89,6 +90,20 @@ const FileContainer = styled.div`
   position: relative;
 `;
 
+const CloseIconWrapper = styled.div`
+  cursor: pointer;
+  position: absolute;
+  z-index: 10;
+  right: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2px;
+  border-radius: 50%;
+  background-color: ${({ theme }) => theme.bg};
+  color: ${({ theme }) => theme.text};
+`;
+
 const Percentage = styled.span`
   color: ${({ theme }) => theme.text};
 `;
@@ -123,6 +138,9 @@ const UploadVideo: React.FC<Props> = (props) => {
     const postVideo = async () => {
       const response = await createVideo(title, description, imgUrl, videoUrl, tags);
       if (response?.status === StatusType.SUCCESS) {
+        toast.success('Uploaded video successfully', {
+          position: 'bottom-left',
+        });
         props.setOpenModal();
       }
     };
@@ -237,18 +255,17 @@ const UploadVideo: React.FC<Props> = (props) => {
           <Input type="file" accept="video/*" onChange={videoChangeHandler} />
           {video && (
             <FileContainer>
-              {videoPercentage > 0 && <Percentage>Upload: {videoPercentage}%</Percentage>}
-              <CloseIcon
+              {videoPercentage > 0 && <Percentage>Uploading: {videoPercentage}%</Percentage>}
+              <CloseIconWrapper
                 onClick={removeVideoHandler}
-                style={{
-                  fontSize: '2.4rem',
-                  cursor: 'pointer',
-                  position: 'absolute',
-                  zIndex: '10',
-                  top: `${videoPercentage > 0 ? '4rem' : '1rem'}`,
-                  right: '1rem',
-                }}
-              />
+                style={{ top: `${videoPercentage > 0 ? '4rem' : '1rem'}` }}
+              >
+                <CloseIcon
+                  style={{
+                    fontSize: '2.4rem',
+                  }}
+                />
+              </CloseIconWrapper>
               <video ref={videoRef} controls style={{ width: '100%' }}>
                 <source src={URL.createObjectURL(video)} type="video/mp4" />
               </video>
@@ -265,18 +282,17 @@ const UploadVideo: React.FC<Props> = (props) => {
           <Input type="file" accept="image/*" onChange={imageChangeHandler} />
           {image && (
             <FileContainer>
-              {imagePercentage > 0 && <Percentage>Upload: {imagePercentage}%</Percentage>}
-              <CloseIcon
+              {imagePercentage > 0 && <Percentage>Uploading: {imagePercentage}%</Percentage>}
+              <CloseIconWrapper
                 onClick={removeImageHandler}
-                style={{
-                  fontSize: '2.4rem',
-                  cursor: 'pointer',
-                  position: 'absolute',
-                  zIndex: '10',
-                  top: `${imagePercentage > 0 ? '4rem' : '1rem'}`,
-                  right: '1rem',
-                }}
-              />
+                style={{ top: `${imagePercentage > 0 ? '4rem' : '1rem'}` }}
+              >
+                <CloseIcon
+                  style={{
+                    fontSize: '2.4rem',
+                  }}
+                />
+              </CloseIconWrapper>
               <img src={URL.createObjectURL(image)} style={{ width: '100%' }} alt="thumbnail" />
             </FileContainer>
           )}

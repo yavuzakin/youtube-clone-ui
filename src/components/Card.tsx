@@ -138,8 +138,12 @@ const Card: React.FC<Props> = (props) => {
     navigate(`/channel/${props.video.user._id}`);
   };
 
-  const hoverHandler = () => {
-    setIsHovered((prevState) => !prevState);
+  const mouseEnterHandler = () => {
+    setIsHovered(true);
+  };
+
+  const mouseLeaveHandler = () => {
+    setIsHovered(false);
   };
 
   const deleteVideoHandler = () => {
@@ -150,8 +154,8 @@ const Card: React.FC<Props> = (props) => {
     <Container
       size={props.size}
       alignment={props.alignment}
-      onMouseEnter={hoverHandler}
-      onMouseLeave={hoverHandler}
+      onMouseEnter={mouseEnterHandler}
+      onMouseLeave={mouseLeaveHandler}
     >
       <Image size={props.size} src={props.video.imgUrl} onClick={goToVideoPage} />
       <Details size={props.size}>

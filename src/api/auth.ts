@@ -9,7 +9,7 @@ export const loginRequest = async (username: string, password: string) => {
     });
     return response.data;
   } catch (err) {
-    console.log(err);
+    throw err;
   }
 };
 
@@ -40,7 +40,7 @@ export const registerRequest = async (username: string, email: string, password:
     });
     return response.data;
   } catch (err) {
-    console.log(err);
+    throw err;
   }
 };
 

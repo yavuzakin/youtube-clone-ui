@@ -1,5 +1,7 @@
 import styled, { ThemeProvider } from 'styled-components';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Topbar from './components/Topbar';
 import { darkTheme, lightTheme } from './utils/Theme';
 import { GlobalStyles } from './utils/GlobalStyles';
@@ -18,31 +20,42 @@ function App() {
   const isDarkTheme = useAppSelector((state) => state.theme.isDarkTheme);
 
   return (
-    <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
-      <Container>
-        <GlobalStyles />
-        <BrowserRouter>
-          <Topbar />
-          <Routes>
-            <Route path="/">
-              <Route index element={<Home page="home" />} />
-              <Route
-                path="subscribed-channels-videos"
-                element={<Home page="subscribed-channels-videos" />}
-              />
-              <Route path="login" element={<Login />} />
-              <Route path="results" element={<Results />} />
-              <Route path="video">
-                <Route path=":id" element={<Video />} />
+    <>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        pauseOnHover
+        style={{ fontSize: '1.4rem' }}
+      />
+      <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
+        <Container>
+          <GlobalStyles />
+          <BrowserRouter>
+            <Topbar />
+            <Routes>
+              <Route path="/">
+                <Route index element={<Home page="home" />} />
+                <Route
+                  path="subscribed-channels-videos"
+                  element={<Home page="subscribed-channels-videos" />}
+                />
+                <Route path="login" element={<Login />} />
+                <Route path="results" element={<Results />} />
+                <Route path="video">
+                  <Route path=":id" element={<Video />} />
+                </Route>
+                <Route path="channel">
+                  <Route path=":id" element={<User />} />
+                </Route>
               </Route>
-              <Route path="channel">
-                <Route path=":id" element={<User />} />
-              </Route>
-            </Route>
-          </Routes>
-        </BrowserRouter>
-      </Container>
-    </ThemeProvider>
+            </Routes>
+          </BrowserRouter>
+        </Container>
+      </ThemeProvider>
+    </>
   );
 }
 
