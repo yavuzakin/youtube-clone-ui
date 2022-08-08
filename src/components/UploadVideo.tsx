@@ -130,7 +130,7 @@ const UploadVideo: React.FC<Props> = (props) => {
   const [imgUrl, setImgUrl] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  let toastId: Id;
+  let toastId: Id = '';
 
   useEffect(() => {
     videoRef.current?.load();
@@ -148,11 +148,11 @@ const UploadVideo: React.FC<Props> = (props) => {
       }
     };
     imgUrl && videoUrl && postVideo();
-  }, [imgUrl, videoUrl, title, description, tags, props]);
+  }, [toastId, imgUrl, videoUrl, title, description, tags, props]);
 
   const uploadFile = (file: File, urlType: string, fileType: string) => {
     const storage = getStorage();
-    const fileName = user?.username + file.name + new Date().getTime();
+    const fileName = user?.username + fileType + title;
     const storageRef = ref(storage, `${fileType}/` + fileName);
     const uploadTask = uploadBytesResumable(storageRef, file);
 

@@ -1,7 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+  deleteObject,
+} from 'firebase/storage';
 import EditIcon from '@mui/icons-material/EditOutlined';
 import CheckIcon from '@mui/icons-material/CheckOutlined';
 import CloseIcon from '@mui/icons-material/Close';
@@ -289,7 +295,19 @@ const User = () => {
     }
   };
 
-  const videoDeleteHandler = async (videoId: string) => {
+  const videoDeleteHandler = async (videoId: string, title: string) => {
+    const storage = getStorage();
+    const videoRef = ref(storage, `videos/${currentUser?.username}videos${title}`);
+    const imageRef = ref(storage, `images/${currentUser?.username}images${title}`);
+
+    deleteObject(videoRef)
+      .then(() => {})
+      .catch(() => {});
+
+    deleteObject(imageRef)
+      .then(() => {})
+      .catch(() => {});
+
     await deleteVideo(videoId);
     setVideos((prevState) => prevState?.filter((video) => video._id !== videoId));
   };

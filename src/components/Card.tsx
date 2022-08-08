@@ -123,7 +123,7 @@ interface Props {
   alignment: 'vertical' | 'horizontal';
   size: 'xsmall' | 'small' | 'medium' | 'large';
   isChannelOwner?: boolean;
-  onVideoDelete?: (videoId: string) => Promise<void>;
+  onVideoDelete?: (videoId: string, title: string) => Promise<void>;
 }
 
 const Card: React.FC<Props> = (props) => {
@@ -147,7 +147,7 @@ const Card: React.FC<Props> = (props) => {
   };
 
   const deleteVideoHandler = () => {
-    props.onVideoDelete!(props.video._id);
+    props.onVideoDelete!(props.video._id, props.video.title);
   };
 
   return (
