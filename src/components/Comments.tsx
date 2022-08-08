@@ -19,6 +19,7 @@ const CommentsCount = styled.p`
 interface Props {
   comments: CommentType[];
   onAddNewComment: (newComment: CommentType) => void;
+  onDeleteComment: (commentId: string) => Promise<void>;
 }
 
 const Comments: React.FC<Props> = (props) => {
@@ -27,7 +28,7 @@ const Comments: React.FC<Props> = (props) => {
       <CommentsCount>{props.comments?.length} Comments</CommentsCount>
       <NewComment onAddNewComment={props.onAddNewComment} />
       {props.comments?.map((comment) => (
-        <Comment key={comment._id} comment={comment} />
+        <Comment key={comment._id} comment={comment} onDeleteComment={props.onDeleteComment} />
       ))}
     </Container>
   );

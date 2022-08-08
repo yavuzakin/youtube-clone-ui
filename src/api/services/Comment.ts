@@ -21,3 +21,12 @@ export const createComment = async (videoId: string, description: string) => {
     console.log(err);
   }
 };
+
+export const deleteComment = async (id: string) => {
+  try {
+    const response = await instance.delete<{}>(`comments/${id}`);
+    return response.data;
+  } catch (err) {
+    console.log(err);
+  }
+};

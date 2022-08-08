@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import { getCommentsOfVideo } from '../api/services/Comment';
+import { deleteComment, getCommentsOfVideo } from '../api/services/Comment';
 import { getVideo } from '../api/services/Video';
 import Comments from '../components/Comments';
 import Recommendation from '../components/Recommendation';
@@ -51,12 +51,23 @@ const Video = () => {
     fetchComments();
   }, [videoId]);
 
+  const deleteCommentHandler = async (commentId: string) => {
+    await deleteComment(commentId);
+    setComments((prevState) => prevState.filter((comment) => comment._id !== commentId));
+  };
+
   return (
     <Container>
       <Wrapper>
         <Content>
           {video && <SingleVideo video={video} setVideo={setVideo} />}
-          {comments && <Comments comments={comments} onAddNewComment={addNewCommentHandler} />}
+          {comments && (
+            <Comments
+              comments={comments}
+              onAddNewComment={addNewCommentHandler}
+              onDeleteComment={deleteCommentHandler}
+            />
+          )}
         </Content>
         <Recommendations>
           <Recommendation tags={video?.tags.join(',')} />

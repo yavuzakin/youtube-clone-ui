@@ -14,9 +14,10 @@ const Container = styled.div`
 `;
 
 const Image = styled.img`
-  min-width: 4rem;
+  width: 4rem;
   height: 4rem;
   border-radius: 50%;
+  object-fit: cover;
   background-color: #999;
 `;
 
