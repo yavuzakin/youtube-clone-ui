@@ -81,6 +81,7 @@ const Image = styled.img`
   width: 4.8rem;
   height: 4.8rem;
   border-radius: 50%;
+  object-fit: cover;
   background-color: #999;
   cursor: pointer;
 `;

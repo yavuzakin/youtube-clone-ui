@@ -56,6 +56,7 @@ const Modal = styled.div`
   padding: 1rem 0;
   background-color: ${({ theme }) => theme.bgLight};
   width: 18rem;
+  z-index: 111;
 `;
 
 const ModalItem = styled.p<{ active: boolean }>`
