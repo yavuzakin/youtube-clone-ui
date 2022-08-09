@@ -14,9 +14,9 @@ const Content = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   justify-items: center;
-  column-gap: 1rem;
+  column-gap: 1.4rem;
   row-gap: 4rem;
-  padding: 2rem 12rem;
+  padding: 2rem 10rem;
   color: ${({ theme }) => theme.textDark};
   background-color: ${({ theme }) => theme.bg};
 `;

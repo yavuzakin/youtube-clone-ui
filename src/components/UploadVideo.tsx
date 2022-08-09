@@ -129,8 +129,7 @@ const UploadVideo: React.FC<Props> = (props) => {
   const [videoUrl, setVideoUrl] = useState('');
   const [imgUrl, setImgUrl] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-
-  let toastId: Id = '';
+  const [toastId, setToastId] = useState<Id>();
 
   useEffect(() => {
     videoRef.current?.load();
@@ -236,7 +235,11 @@ const UploadVideo: React.FC<Props> = (props) => {
       return;
     }
 
-    toastId = toast.info('Uploading the video...', { position: 'bottom-left', autoClose: false });
+    const infoToast = toast.info('Uploading the video...', {
+      position: 'bottom-left',
+      autoClose: false,
+    });
+    setToastId(infoToast);
 
     uploadFile(video!, 'videoUrl', 'videos');
     uploadFile(image!, 'imgUrl', 'images');
