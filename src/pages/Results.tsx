@@ -6,6 +6,7 @@ import Card from '../components/Card';
 import Leftbar from '../components/Leftbar';
 import { StatusType } from '../types/Common';
 import { Video } from '../types/Video';
+import breakpoint from '../utils/BreakPoints';
 
 const Container = styled.div`
   display: flex;
@@ -19,10 +20,23 @@ const Content = styled.div`
 
 const ResultsContainer = styled.div`
   width: 70%;
-  margin: 5rem auto 0;
+  margin: 5rem auto 1rem;
   display: flex;
   flex-direction: column;
   gap: 1.6rem;
+
+  @media ${breakpoint.devices.tabPort} {
+    width: 96%;
+    margin: 1rem auto;
+    justify-content: center;
+  }
+
+  @media ${breakpoint.devices.phone} {
+    width: 90%;
+    margin: 1rem auto;
+    justify-content: center;
+    gap: 4rem;
+  }
 `;
 
 const Results = () => {

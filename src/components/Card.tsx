@@ -4,6 +4,7 @@ import TimeAgo from 'react-timeago';
 import DeleteIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { Video } from '../types/Video';
 import { useState } from 'react';
+import breakpoint from '../utils/BreakPoints';
 
 const Container = styled.div<{ size: string; alignment: string }>`
   display: flex;
@@ -12,6 +13,10 @@ const Container = styled.div<{ size: string; alignment: string }>`
   gap: ${({ size }) => (size === 'large' ? '1.6rem' : size === 'medium' ? '1.2rem' : '0.8rem')};
   max-width: 100%;
   position: relative;
+
+  @media ${breakpoint.devices.phone} {
+    flex-direction: ${({ size }) => size === 'large' && 'column'};
+  }
 `;
 
 const Image = styled.img<{ size: string }>`
