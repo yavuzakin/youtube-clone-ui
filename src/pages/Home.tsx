@@ -4,6 +4,7 @@ import { getAllVideos, getVideosOFSubscribedChannels } from '../api/services/Vid
 import Card from '../components/Card';
 import Leftbar from '../components/Leftbar';
 import { Video } from '../types/Video';
+import breakpoint from '../utils/BreakPoints';
 
 const Container = styled.div`
   display: flex;
@@ -11,14 +12,34 @@ const Container = styled.div`
 
 const Content = styled.div`
   flex: 8;
+  color: ${({ theme }) => theme.textDark};
+  background-color: ${({ theme }) => theme.bg};
+`;
+
+const Wrapper = styled.div`
+  margin: 1rem auto;
+  width: 90%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   justify-items: center;
   column-gap: 1.4rem;
   row-gap: 4rem;
-  padding: 2rem 10rem;
-  color: ${({ theme }) => theme.textDark};
-  background-color: ${({ theme }) => theme.bg};
+
+  @media ${breakpoint.devices.smallDesktop} {
+    width: 96%;
+  }
+
+  @media ${breakpoint.devices.tabLand} {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  @media ${breakpoint.devices.tabPort} {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media ${breakpoint.devices.phone} {
+    grid-template-columns: 1fr;
+  }
 `;
 
 interface Props {
@@ -46,9 +67,11 @@ const Home: React.FC<Props> = (props) => {
     <Container>
       <Leftbar />
       <Content>
-        {videos?.map((video) => (
-          <Card key={video._id} video={video} size="medium" alignment="vertical" />
-        ))}
+        <Wrapper>
+          {videos?.map((video) => (
+            <Card key={video._id} video={video} size="medium" alignment="vertical" />
+          ))}
+        </Wrapper>
       </Content>
     </Container>
   );

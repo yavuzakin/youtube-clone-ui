@@ -21,6 +21,7 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import { useAppDispatch, useAppSelector } from '../types/Hooks';
 import Subscriptions from './Subscriptions';
 import { updateTheme } from '../store/themeSlice';
+import breakpoint from '../utils/BreakPoints';
 
 const Container = styled.div`
   flex: 1;
@@ -32,6 +33,22 @@ const Container = styled.div`
   padding: 0 2.6rem;
   font-size: 1.4rem;
   overflow-y: scroll;
+
+  @media ${breakpoint.devices.smallDesktop} {
+    flex: 0.5;
+    padding: 0 0.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  @media ${breakpoint.devices.tabLand} {
+    flex: 0.8;
+  }
+
+  @media ${breakpoint.devices.phone} {
+    flex: 1.5;
+  }
 `;
 
 const Item = styled.div`
@@ -44,11 +61,35 @@ const Item = styled.div`
   &:hover {
     background-color: ${({ theme }) => theme.bgLighter};
   }
+
+  @media ${breakpoint.devices.smallDesktop} {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    &:not(:nth-child(-n + 6)) {
+      display: none;
+    }
+    &:last-child {
+      display: flex;
+      text-align: center;
+    }
+  }
+`;
+
+const Name = styled.p`
+  @media ${breakpoint.devices.smallDesktop} {
+    font-size: 1rem;
+  }
 `;
 
 const Hr = styled.hr`
   margin: 1.5rem 0;
   border: 0.5px solid ${({ theme }) => theme.soft};
+
+  @media ${breakpoint.devices.smallDesktop} {
+    display: none;
+  }
 `;
 
 const Login = styled.div`
@@ -56,6 +97,10 @@ const Login = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
+
+  @media ${breakpoint.devices.smallDesktop} {
+    display: none;
+  }
 `;
 
 const Button = styled.button`
@@ -101,34 +146,34 @@ const Leftbar = () => {
     <Container>
       <Item onClick={goToHomePage}>
         <HomeOutlined style={{ fontSize: '2.4rem' }} />
-        Home
+        <Name>Home</Name>
       </Item>
       <Item>
         <ExploreOutlined style={{ fontSize: '2.4rem' }} />
-        Explore
+        <Name>Explore</Name>
       </Item>
       <Item onClick={goToSubVideosPage}>
         <SubscriptionsOutlined style={{ fontSize: '2.4rem' }} />
-        Subscriptions
+        <Name>Subscriptions</Name>
       </Item>
       <Hr />
       <Item>
         <LibraryOutlined style={{ fontSize: '2.4rem' }} />
-        Library
+        <Name>Library</Name>
       </Item>
       <Item>
         <HistoryOutlined style={{ fontSize: '2.4rem' }} />
-        History
+        <Name>History</Name>
       </Item>
       <Hr />
       {currentUser ? (
         <Subscriptions subscribedUsers={currentUser.subscribedUsers} />
       ) : (
         <Login>
-          Sign in to like videos, comment, and subscribe
+          <Name>Sign in to like videos, comment, and subscribe</Name>
           <Link to="/login" style={{ textDecoration: 'none' }}>
             <Button>
-              <AccountCircleOutlinedIcon style={{ fontSize: '2.4rem' }} /> SIGN IN
+              <AccountCircleOutlinedIcon style={{ fontSize: '2.4rem' }} /> <Name>SIGN IN</Name>
             </Button>
           </Link>
         </Login>
@@ -136,44 +181,44 @@ const Leftbar = () => {
       <Hr />
       <Item>
         <MusicOutlined style={{ fontSize: '2.4rem' }} />
-        Music
+        <Name>Music</Name>
       </Item>
       <Item>
         <SportsOutlined style={{ fontSize: '2.4rem' }} />
-        Sports
+        <Name>Sports</Name>
       </Item>
       <Item>
         <GamingOutlined style={{ fontSize: '2.4rem' }} />
-        Gaming
+        <Name>Gaming</Name>
       </Item>
       <Item>
         <MoviesOutlined style={{ fontSize: '2.4rem' }} />
-        Movies
+        <Name>Movies</Name>
       </Item>
       <Item>
         <NewsOutlined style={{ fontSize: '2.4rem' }} />
-        News
+        <Name>News</Name>
       </Item>
       <Item>
         <LiveOutlined style={{ fontSize: '2.4rem' }} />
-        Live
+        <Name>Live</Name>
       </Item>
       <Hr />
       <Item>
         <SettingsOutlined style={{ fontSize: '2.4rem' }} />
-        Settings
+        <Name>Settings</Name>
       </Item>
       <Item>
         <ReportOutlined style={{ fontSize: '2.4rem' }} />
-        Report
+        <Name>Report</Name>
       </Item>
       <Item>
         <HelpOutlined style={{ fontSize: '2.4rem' }} />
-        Help
+        <Name>Help</Name>
       </Item>
       <Item onClick={themeChangeHandler}>
         <ModeOutlined style={{ fontSize: '2.4rem' }} />
-        {isDarkTheme ? 'Light' : 'Dark'} Mode
+        <Name>{isDarkTheme ? 'Light' : 'Dark'} Mode</Name>
       </Item>
     </Container>
   );

@@ -16,21 +16,14 @@ const Container = styled.div<{ size: string; alignment: string }>`
 
 const Image = styled.img<{ size: string }>`
   flex: ${({ size }) => (size === 'xsmall' ? '1' : size === 'large' && '1')};
-  max-width: ${({ size }) =>
-    size === 'large'
-      ? '36rem'
-      : size === 'medium'
-      ? '36rem'
-      : size === 'small'
-      ? '21rem'
-      : '17rem'};
+  max-width: ${({ size }) => (size === 'large' ? '36rem' : size === 'xsmall' ? '17rem' : '100%')};
   background-color: #999;
   border-radius: 2px;
   cursor: pointer;
 `;
 
 const Details = styled.div<{ size: string }>`
-  width: 100%;
+  max-width: 100%;
   flex: ${({ size }) => (size === 'xsmall' ? '1' : size === 'large' && '2')};
   display: grid;
   grid-template-columns: ${({ size }) =>

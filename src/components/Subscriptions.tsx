@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { getUser } from '../api/services/User';
 import { StatusType } from '../types/Common';
 import { User } from '../types/User';
+import breakpoint from '../utils/BreakPoints';
 
 const Container = styled.div`
   display: flex;
@@ -16,6 +17,10 @@ const Title = styled.h2`
   font-weight: 600;
   line-height: 2.8rem;
   padding: 0.75rem 1.2rem;
+
+  @media ${breakpoint.devices.smallDesktop} {
+    display: none;
+  }
 `;
 
 const ChannelContainer = styled.div`
@@ -28,6 +33,11 @@ const ChannelContainer = styled.div`
 
   &:hover {
     background-color: ${({ theme }) => theme.bgLighter};
+  }
+
+  @media ${breakpoint.devices.smallDesktop} {
+    flex-direction: column;
+    gap: 0.5rem;
   }
 `;
 
@@ -43,6 +53,10 @@ const Name = styled.span`
   font-size: 1.4rem;
   font-weight: 400;
   line-height: 2rem;
+
+  @media ${breakpoint.devices.smallDesktop} {
+    font-size: 1.1rem;
+  }
 `;
 
 interface Props {
