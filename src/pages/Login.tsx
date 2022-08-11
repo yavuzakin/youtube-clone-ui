@@ -14,7 +14,6 @@ const Container = styled.div`
   height: calc(100vh - 5.6rem);
   display: flex;
   justify-content: center;
-  align-items: center;
 `;
 
 const Form = styled.form`
@@ -25,6 +24,8 @@ const Form = styled.form`
   padding: 5rem 10rem;
   border: 1px solid ${({ theme }) => theme.bgLighter};
   background-color: ${({ theme }) => theme.bgLight};
+  height: 60rem;
+  margin: auto;
 `;
 
 const Title = styled.h2`
