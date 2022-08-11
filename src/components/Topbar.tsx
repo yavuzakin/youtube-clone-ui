@@ -1,9 +1,11 @@
 import styled, { createGlobalStyle } from 'styled-components';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import SearchIcon from '@mui/icons-material/Search';
+import PhoneSearchIcon from '@mui/icons-material/Search';
 import AddVideo from '@mui/icons-material/VideoCallOutlined';
 import Logout from '@mui/icons-material/LogoutOutlined';
 import Account from '@mui/icons-material/AccountBoxOutlined';
+import ArrowBackIcon from '@mui/icons-material/ArrowBackOutlined';
 
 import YoutubeLogo from '../images/logo.png';
 import { Link, useNavigate } from 'react-router-dom';
@@ -11,6 +13,7 @@ import { useAppDispatch, useAppSelector } from '../types/Hooks';
 import { useRef, useState } from 'react';
 import { logout } from '../store/userActions';
 import UploadVideo from './UploadVideo';
+import breakpoint from '../utils/BreakPoints';
 
 const GlobalStyle = createGlobalStyle<{ isUploadVideoModalOpen: boolean }>`
   body {
@@ -46,14 +49,24 @@ const Image = styled.img`
   height: 3rem;
 `;
 
-const Search = styled.div`
+const Search = styled.div<{ isMobile: boolean }>`
   width: 35%;
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @media ${breakpoint.devices.tabPort} {
+    width: 50%;
+  }
+
+  @media ${breakpoint.devices.phone} {
+    width: ${({ isMobile }) => (isMobile ? '70%' : '10%')};
+    margin-left: ${({ isMobile }) => !isMobile && 'auto'};
+    margin-right: ${({ isMobile }) => !isMobile && '1rem'};
+  }
 `;
 
-const Input = styled.input`
+const Input = styled.input<{ isMobile: boolean }>`
   width: 84%;
   padding: 0.9rem 0.5rem;
   font-size: 1.6rem;
@@ -67,9 +80,13 @@ const Input = styled.input`
   &:focus-visible {
     border: 0.5px solid #3ea6ff;
   }
+
+  @media ${breakpoint.devices.phone} {
+    display: ${({ isMobile }) => !isMobile && 'none'};
+  }
 `;
 
-const Icon = styled.div`
+const Icon = styled.div<{ isMobile: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -78,6 +95,21 @@ const Icon = styled.div`
   border-top-right-radius: 2px;
   border-bottom-right-radius: 2px;
   cursor: pointer;
+
+  @media ${breakpoint.devices.phone} {
+    display: ${({ isMobile }) => !isMobile && 'none'};
+  }
+`;
+
+const PhoneIcon = styled.div<{ isMobile: boolean }>`
+  display: none;
+
+  @media ${breakpoint.devices.phone} {
+    display: ${({ isMobile }) => (isMobile ? 'none' : 'flex')};
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
 `;
 
 const Button = styled.button`
@@ -112,6 +144,12 @@ const Avatar = styled.img`
   cursor: pointer;
 `;
 
+const Username = styled.p`
+  @media ${breakpoint.devices.tabPort} {
+    display: none;
+  }
+`;
+
 const DropdownMenu = styled.div`
   position: absolute;
   top: 4rem;
@@ -125,6 +163,11 @@ const DropdownMenu = styled.div`
   flex-direction: column;
   gap: 1.5rem;
   justify-content: flex-start;
+
+  @media ${breakpoint.devices.tabPort} {
+    padding: 1rem 1.6rem;
+    font-size: 1.4rem;
+  }
 `;
 
 const MenuItem = styled.div`
@@ -134,9 +177,14 @@ const MenuItem = styled.div`
   cursor: pointer;
 `;
 
+const SignIn = styled.p<{ isMobile: boolean }>`
+  display: ${({ isMobile }) => isMobile && 'none'};
+`;
+
 const Topbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUploadVideoModalOpen, setIsUploadVideoModalOpen] = useState(false);
+  const [isPhoneIconClicked, setIsPhoneIconClicked] = useState(false);
   const { currentUser } = useAppSelector((state) => state.user);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -168,31 +216,47 @@ const Topbar = () => {
     query && navigate(`/results?q=${query}`);
   };
 
+  const phoneIconClickHandler = () => {
+    setIsPhoneIconClicked((prevState) => !prevState);
+  };
+
   return (
     <>
       <GlobalStyle isUploadVideoModalOpen={isUploadVideoModalOpen} />
       <Container>
-        <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-          <Logo>
-            <Image src={YoutubeLogo} />
-            YouTube
-          </Logo>
-        </Link>
-        <Search>
-          <Input placeholder="Search" ref={inputRef} />
-          <Icon onClick={searchHandler}>
+        {isPhoneIconClicked ? (
+          <ArrowBackIcon
+            style={{ fontSize: '2.4rem', cursor: 'pointer' }}
+            onClick={phoneIconClickHandler}
+          />
+        ) : (
+          <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <Logo>
+              <Image src={YoutubeLogo} />
+              YouTube
+            </Logo>
+          </Link>
+        )}
+        <Search isMobile={isPhoneIconClicked}>
+          <Input placeholder="Search" ref={inputRef} isMobile={isPhoneIconClicked} />
+          <Icon onClick={searchHandler} isMobile={isPhoneIconClicked}>
             <SearchIcon style={{ fontSize: '2.4rem' }} />
           </Icon>
+          <PhoneIcon onClick={phoneIconClickHandler} isMobile={isPhoneIconClicked}>
+            <PhoneSearchIcon style={{ fontSize: '2.2rem' }} />
+          </PhoneIcon>
         </Search>
         {currentUser ? (
           <User>
             <AddVideo
-              style={{ fontSize: '3rem', cursor: 'pointer' }}
+              style={
+                isPhoneIconClicked ? { display: 'none' } : { fontSize: '3rem', cursor: 'pointer' }
+              }
               onClick={uploadVideoModalHandler}
             />
             <Avatar onClick={clickHandler} src={currentUser.profilePic} />
-            {currentUser.username}
-            {isMenuOpen && (
+            <Username>{currentUser.username}</Username>
+            {isMenuOpen && !isPhoneIconClicked && (
               <DropdownMenu>
                 <MenuItem onClick={accountClickHandler}>
                   <Account style={{ fontSize: '2rem' }} /> Account
@@ -206,7 +270,8 @@ const Topbar = () => {
         ) : (
           <Link to="/login" style={{ textDecoration: 'none' }}>
             <Button>
-              <AccountCircleOutlinedIcon style={{ fontSize: '2.4rem' }} /> SIGN IN
+              <AccountCircleOutlinedIcon style={{ fontSize: '2.4rem' }} />{' '}
+              <SignIn isMobile={isPhoneIconClicked}>SIGN IN</SignIn>
             </Button>
           </Link>
         )}
