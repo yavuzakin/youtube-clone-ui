@@ -21,6 +21,7 @@ import { StatusType } from '../types/Common';
 import { useAppDispatch, useAppSelector } from '../types/Hooks';
 import { User as UserType } from '../types/User';
 import { Video } from '../types/Video';
+import breakpoint from '../utils/BreakPoints';
 
 const Container = styled.div`
   display: flex;
@@ -45,6 +46,18 @@ const ProfileHeader = styled.div`
   gap: 2rem;
   background-color: ${({ theme }) => theme.bgLight};
   padding: 1rem 20rem 0;
+
+  @media ${breakpoint.devices.smallDesktop} {
+    padding: 1rem 13rem;
+  }
+
+  @media ${breakpoint.devices.tabLand} {
+    padding: 1rem 4rem;
+  }
+
+  @media ${breakpoint.devices.tabPort} {
+    padding: 1rem;
+  }
 `;
 
 const FirstRow = styled.div`
@@ -57,10 +70,17 @@ const ChannelInformation = styled.div`
   display: flex;
   align-items: center;
   gap: 3rem;
+
+  @media ${breakpoint.devices.phone} {
+    gap: 2rem;
+  }
 `;
 
 const PPWrapper = styled.div`
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const ProfilePicture = styled.img`
@@ -68,6 +88,11 @@ const ProfilePicture = styled.img`
   width: 8rem;
   border-radius: 50%;
   object-fit: cover;
+
+  @media ${breakpoint.devices.phone} {
+    height: 5rem;
+    width: 5rem;
+  }
 `;
 
 const Label = styled.label`
@@ -130,6 +155,11 @@ const ChannelName = styled.h2`
   font-size: 2.4rem;
   font-weight: 400;
   line-height: 3rem;
+
+  @media ${breakpoint.devices.phone} {
+    font-size: 2rem;
+    line-height: 2rem;
+  }
 `;
 
 const SubscriberCount = styled.p`
@@ -137,6 +167,10 @@ const SubscriberCount = styled.p`
   font-size: 1.4rem;
   font-weight: 400;
   line-height: 2rem;
+
+  @media ${breakpoint.devices.phone} {
+    font-size: 1.2rem;
+  }
 `;
 
 const SubscribeButton = styled.button`
@@ -147,6 +181,11 @@ const SubscribeButton = styled.button`
   color: white;
   background-color: #cc0000;
   cursor: pointer;
+
+  @media ${breakpoint.devices.phone} {
+    font-size: 1.2rem;
+    padding: 0.8rem 1.2rem;
+  }
 `;
 
 const SecondRow = styled.div`

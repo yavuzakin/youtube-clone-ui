@@ -3,12 +3,25 @@ import SortIcon from '@mui/icons-material/Sort';
 import React, { useState } from 'react';
 import { Video } from '../types/Video';
 import Card from './Card';
+import breakpoint from '../utils/BreakPoints';
 
 const Container = styled.div`
   padding: 0 20rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
+
+  @media ${breakpoint.devices.smallDesktop} {
+    padding: 1rem 13rem;
+  }
+
+  @media ${breakpoint.devices.tabLand} {
+    padding: 1rem 4rem;
+  }
+
+  @media ${breakpoint.devices.tabPort} {
+    padding: 1rem;
+  }
 `;
 
 const Header = styled.div`
@@ -23,6 +36,22 @@ const Content = styled.div`
   grid-template-columns: repeat(6, 1fr);
   column-gap: 0.5rem;
   row-gap: 2rem;
+
+  @media ${breakpoint.devices.smallDesktop} {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  @media ${breakpoint.devices.tabLand} {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  @media ${breakpoint.devices.tabPort} {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media ${breakpoint.devices.phone} {
+    grid-template-columns: repeat(1, 1fr);
+  }
 `;
 
 const HeaderText = styled.p`
@@ -57,6 +86,10 @@ const Modal = styled.div`
   background-color: ${({ theme }) => theme.bgLight};
   width: 18rem;
   z-index: 111;
+
+  @media ${breakpoint.devices.tabLand} {
+    left: -100%;
+  }
 `;
 
 const ModalItem = styled.p<{ active: boolean }>`
@@ -69,6 +102,10 @@ const ModalItem = styled.p<{ active: boolean }>`
 
   &:hover {
     background-color: ${({ theme }) => theme.bgLighter};
+  }
+
+  @media ${breakpoint.devices.tabLand} {
+    padding: 1rem;
   }
 `;
 

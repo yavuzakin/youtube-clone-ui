@@ -3,6 +3,7 @@ import EditIcon from '@mui/icons-material/EditOutlined';
 import CheckIcon from '@mui/icons-material/CheckOutlined';
 import { User } from '../types/User';
 import { useState } from 'react';
+import breakpoint from '../utils/BreakPoints';
 
 const Container = styled.div`
   display: flex;
@@ -12,6 +13,23 @@ const Container = styled.div`
   line-height: 2rem;
   color: ${({ theme }) => theme.text};
   gap: 10rem;
+
+  @media ${breakpoint.devices.smallDesktop} {
+    padding: 1rem 13rem;
+  }
+
+  @media ${breakpoint.devices.tabLand} {
+    padding: 1rem 4rem;
+  }
+
+  @media ${breakpoint.devices.tabPort} {
+    padding: 1rem;
+    gap: 5rem;
+  }
+
+  @media ${breakpoint.devices.phone} {
+    gap: 2rem;
+  }
 `;
 
 const LeftSide = styled.div`
@@ -20,12 +38,21 @@ const LeftSide = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2.2rem;
+
+  @media ${breakpoint.devices.phone} {
+    font-size: 1.2rem;
+    gap: 1rem;
+  }
 `;
 
 const RightSide = styled.div`
   flex: 3;
   display: flex;
   flex-direction: column;
+
+  @media ${breakpoint.devices.phone} {
+    font-size: 1.2rem;
+  }
 `;
 
 const EditIconWrapper = styled.div`
@@ -71,6 +98,10 @@ const Title = styled.h2`
   font-size: 1.6rem;
   font-weight: 400;
   line-height: 2.2rem;
+
+  @media ${breakpoint.devices.phone} {
+    font-size: 1.5rem;
+  }
 `;
 
 const Description = styled.p``;
@@ -79,11 +110,20 @@ const JoinDate = styled.p`
   margin-top: 1rem;
   border-top: 0.6px solid ${({ theme }) => theme.soft};
   padding: 1.2rem 0;
+
+  @media ${breakpoint.devices.phone} {
+    margin-top: 0.5rem;
+    padding: 0.5rem 0;
+  }
 `;
 
 const TotalViews = styled.p`
   border-top: 1px solid ${({ theme }) => theme.soft};
   padding: 1.2rem 0;
+
+  @media ${breakpoint.devices.phone} {
+    padding: 0.5rem 0;
+  }
 `;
 
 interface Props {
