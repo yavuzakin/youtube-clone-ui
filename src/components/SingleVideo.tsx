@@ -14,6 +14,7 @@ import { useEffect, useRef } from 'react';
 import { dislikeVideo, likeVideo } from '../api/services/Video';
 import { StatusType } from '../types/Common';
 import { subscribeToUser, unSubscribeFromUser } from '../api/services/User';
+import breakpoint from '../utils/BreakPoints';
 
 const VideoWrapper = styled.div`
   max-width: 128rem;
@@ -43,6 +44,10 @@ const Info = styled.p`
   font-weight: 400;
   line-height: 2rem;
   color: ${({ theme }) => theme.textDark};
+
+  @media ${breakpoint.devices.phone} {
+    font-size: 1.3rem;
+  }
 `;
 
 const Buttons = styled.div`
@@ -58,6 +63,11 @@ const Button = styled.div`
   font-weight: 500;
   color: ${({ theme }) => theme.text};
   cursor: pointer;
+
+  @media ${breakpoint.devices.phone} {
+    gap: 0.6rem;
+    font-size: 1.3rem;
+  }
 `;
 
 const Hr = styled.hr`
@@ -69,6 +79,18 @@ const Channel = styled.div`
   display: grid;
   grid-template-columns: 1fr 15fr 2fr;
   row-gap: 2rem;
+
+  @media ${breakpoint.devices.smallDesktop} {
+    grid-template-columns: 1fr 12fr 2fr;
+  }
+
+  @media ${breakpoint.devices.tabLand} {
+    grid-template-columns: 1fr 8fr 2fr;
+  }
+
+  @media ${breakpoint.devices.phone} {
+    grid-template-columns: 1fr 6fr 1fr;
+  }
 `;
 
 const ChannelInfo = styled.div`
@@ -115,6 +137,11 @@ const SubscribeButton = styled.button`
   color: white;
   background-color: #cc0000;
   cursor: pointer;
+  align-self: center;
+
+  @media ${breakpoint.devices.phone} {
+    font-size: 1.3rem;
+  }
 `;
 
 interface Props {

@@ -8,6 +8,7 @@ import Recommendation from '../components/Recommendation';
 import SingleVideo from '../components/SingleVideo';
 import { Comment } from '../types/Comment';
 import { Video as VideoType } from '../types/Video';
+import breakpoint from '../utils/BreakPoints';
 
 const Container = styled.div`
   background-color: ${({ theme }) => theme.bg};
@@ -17,16 +18,32 @@ const Wrapper = styled.div`
   display: flex;
   max-width: 173rem;
   margin: 0 auto;
+
+  @media ${breakpoint.devices.tabPort} {
+    flex-direction: column;
+  }
 `;
 
 const Content = styled.div`
   padding: 2.4rem;
   flex: 11;
+
+  @media ${breakpoint.devices.tabLand} {
+    padding: 2.4rem 1.2rem;
+  }
 `;
 
 const Recommendations = styled.div`
   flex: 4;
   padding: 2.4rem 2.4rem 2.4rem 0;
+
+  @media ${breakpoint.devices.tabLand} {
+    padding: 2.4rem 1.2rem 2.4rem 0;
+  }
+
+  @media ${breakpoint.devices.tabPort} {
+    padding: 2.4rem 1.2rem;
+  }
 `;
 
 const Video = () => {
