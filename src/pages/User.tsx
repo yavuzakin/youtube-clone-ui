@@ -97,7 +97,7 @@ const ProfilePicture = styled.img`
 
 const Label = styled.label`
   position: absolute;
-  bottom: 1rem;
+  bottom: 0;
   right: 0;
   background-color: ${({ theme }) => theme.bgLighter};
   border: 1px solid ${({ theme }) => theme.bgLight};
@@ -112,7 +112,7 @@ const Label = styled.label`
 
 const CheckIconWrapper = styled.div`
   position: absolute;
-  bottom: 1rem;
+  bottom: 0;
   right: 0;
   background-color: green;
   border: 1px solid ${({ theme }) => theme.bgLight};
