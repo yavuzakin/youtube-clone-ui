@@ -1,46 +1,69 @@
-# Getting Started with Create React App
+# Project Title
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Youtube-clone
 
-## Available Scripts
+Checkout [backend](https://github.com/yavuzakin/youtube-clone-api)
 
-In the project directory, you can run:
+## Demo Link:
 
-### `npm start`
+Access my site at
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Table of Content:
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- [About the App](#about-the-app)
+- [Screenshots](#screenshots)
+- [Technologies](#technologies)
 
-### `npm test`
+## About The App
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Users can register/login.
 
-### `npm run build`
+Unauthenticated users can
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- search videos,
+- watch videos,
+- view channels.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Authenticated users can
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- subscribe/unsubscribe channels,
+- like/dislike videos,
+- update their profile pictures and descriptions,
+- comment on a video and delete their comments,
+- upload video and delete their videos,
+- view videos of the channels they subscribed.
 
-### `npm run eject`
+Users can authenticate via google also.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Screenshots
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+#### Desktop
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+![Desktop-login](https://i.im.ge/2022/08/13/Oow5WY.Desktop-login.png)
+![Desktop-home](https://i.im.ge/2022/08/13/OomvqP.Desktop-home.png)
+![Desktop-video](https://i.im.ge/2022/08/13/OomZ9Y.Dekstop-video.png)
+![Desktop-search](https://i.im.ge/2022/08/13/Oomnkf.Desktop-search.png)
+![Desktop-subscribed-channels](https://i.im.ge/2022/08/13/OowjoD.Desktop-subscribed-channels.png)
+![Desktop-channel-videos](https://i.im.ge/2022/08/13/OoyDfG.Desktop-channel-videos.png)
+![Desktop-channel-about](https://i.im.ge/2022/08/13/OoyLux.Desktop-channel-about.png)
+![Desktop-comment](https://i.im.ge/2022/08/13/OomHnp.Desktop-comment.png)
+![Desktop-video-delete](https://i.im.ge/2022/08/13/Ooy5LS.Desktop-video-delete.png)
+![upload-video](https://i.im.ge/2022/08/13/OomeRW.upload-video.png)
+![upload-img](https://i.im.ge/2022/08/13/OowQT0.upload-img.png)
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+#### Mobile
 
-## Learn More
+![Phone-login](https://i.im.ge/2022/08/13/Oow74K.Phone-login.png)
+![Phone-home](https://i.im.ge/2022/08/13/Oot48M.Phone-home.png)
+![Phone-video](https://i.im.ge/2022/08/13/OowLyX.Phone-video.png)
+![Phone-search](https://i.im.ge/2022/08/13/OowsU6.Phone-search.png)
+![Phone-channel-videos](https://i.im.ge/2022/08/13/OoteID.Phone-channel-videos.png)
+![Phone-channel-about](https://i.im.ge/2022/08/13/OoyQJC.Phone-channel-about.png)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Technologies
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- React
+- TypeScript
+- Styled-components
+- Redux
+- Firebase
