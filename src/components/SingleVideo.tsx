@@ -261,7 +261,7 @@ const SingleVideo: React.FC<Props> = (props) => {
           <ChannelName onClick={goToUserPage}>{props.video?.user.username}</ChannelName>
           <SubscriberCount>
             {props.video?.user.subscribers.length}{' '}
-            {props.video?.user.subscribers.length === 0 ? 'subcriber' : 'subcribers'}
+            {props.video?.user.subscribers.length < 2 ? 'subscriber' : 'subscribers'}
           </SubscriberCount>
         </ChannelInfo>
         <SubscribeButton onClick={subscribeHandler}>
