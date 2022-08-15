@@ -6,7 +6,7 @@ Checkout [backend](https://github.com/yavuzakin/youtube-clone-api)
 
 ## Demo Link:
 
-Access my site at
+Access my site at https://youtube-clone-ui.herokuapp.com
 
 ## Table of Content:
 
