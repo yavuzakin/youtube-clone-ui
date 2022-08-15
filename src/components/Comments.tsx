@@ -25,7 +25,9 @@ interface Props {
 const Comments: React.FC<Props> = (props) => {
   return (
     <Container>
-      <CommentsCount>{props.comments?.length} Comments</CommentsCount>
+      <CommentsCount>
+        {props.comments?.length} {props.comments?.length < 2 ? 'Comment' : 'Comments'}
+      </CommentsCount>
       <NewComment onAddNewComment={props.onAddNewComment} />
       {props.comments?.map((comment) => (
         <Comment key={comment._id} comment={comment} onDeleteComment={props.onDeleteComment} />
