@@ -28,7 +28,7 @@ const Container = styled.div`
   }
 
   @media ${breakpoint.devices.phone} {
-    gap: 2rem;
+    flex-direction: column;
   }
 `;
 

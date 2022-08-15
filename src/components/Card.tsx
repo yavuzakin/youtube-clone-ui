@@ -25,6 +25,10 @@ const Image = styled.img<{ size: string }>`
   background-color: #999;
   border-radius: 2px;
   cursor: pointer;
+
+  @media ${breakpoint.devices.phone} {
+    max-width: ${({ size }) => size === 'large' && '100%'};
+  }
 `;
 
 const Details = styled.div<{ size: string }>`
@@ -65,6 +69,11 @@ const VideoTitle = styled.h2<{ size: string }>`
   -webkit-line-clamp: 2;
   color: ${({ theme }) => theme.text};
   cursor: pointer;
+
+  @media ${breakpoint.devices.phone} {
+    font-size: ${({ size }) => size === 'large' && '1.6rem'};
+    line-height: ${({ size }) => size === 'large' && '2.2rem'};
+  }
 `;
 
 const ChannelName = styled.h3<{ size: string }>`
@@ -100,6 +109,11 @@ const Description = styled.p<{ size: string }>`
   color: ${({ theme }) => theme.textDark};
   grid-column: 1 / -1;
   display: ${({ size }) => size !== 'large' && 'none'};
+
+  @media ${breakpoint.devices.phone} {
+    font-size: ${({ size }) => size === 'large' && '1.1rem'};
+    line-height: ${({ size }) => size === 'large' && '1.6rem'};
+  }
 `;
 
 const DeleteIconWrapper = styled.div`

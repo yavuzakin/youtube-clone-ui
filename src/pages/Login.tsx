@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { login, loginWithGoogle, register } from '../store/userActions';
 import { useAppDispatch } from '../types/Hooks';
 import { auth, provider } from '../firebase';
+import breakpoint from '../utils/BreakPoints';
 
 const Container = styled.div`
   background-color: ${({ theme }) => theme.bg};
@@ -14,6 +15,15 @@ const Container = styled.div`
   height: calc(100vh - 5.6rem);
   display: flex;
   justify-content: center;
+
+  @media ${breakpoint.devices.tabPort} {
+    padding: 2rem;
+    height: auto;
+  }
+  @media ${breakpoint.devices.phone} {
+    padding: 2rem;
+    height: auto;
+  }
 `;
 
 const Form = styled.form`
@@ -26,6 +36,10 @@ const Form = styled.form`
   background-color: ${({ theme }) => theme.bgLight};
   height: 60rem;
   margin: auto;
+
+  @media ${breakpoint.devices.phone} {
+    padding: 5rem;
+  }
 `;
 
 const Title = styled.h2`

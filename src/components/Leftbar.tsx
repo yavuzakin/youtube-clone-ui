@@ -40,6 +40,7 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     gap: 2rem;
+    padding-top: 1rem;
   }
 
   @media ${breakpoint.devices.tabLand} {
@@ -47,7 +48,7 @@ const Container = styled.div`
   }
 
   @media ${breakpoint.devices.phone} {
-    flex: 1.5;
+    flex: 1.3;
   }
 `;
 
@@ -80,6 +81,10 @@ const Item = styled.div`
 const Name = styled.p`
   @media ${breakpoint.devices.smallDesktop} {
     font-size: 1rem;
+  }
+
+  @media ${breakpoint.devices.phone} {
+    font-size: 0.8rem;
   }
 `;
 

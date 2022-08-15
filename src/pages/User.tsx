@@ -72,7 +72,7 @@ const ChannelInformation = styled.div`
   gap: 3rem;
 
   @media ${breakpoint.devices.phone} {
-    gap: 2rem;
+    gap: 1rem;
   }
 `;
 
@@ -157,8 +157,8 @@ const ChannelName = styled.h2`
   line-height: 3rem;
 
   @media ${breakpoint.devices.phone} {
-    font-size: 2rem;
-    line-height: 2rem;
+    font-size: 1.8rem;
+    line-height: 1.8rem;
   }
 `;
 
@@ -170,6 +170,7 @@ const SubscriberCount = styled.p`
 
   @media ${breakpoint.devices.phone} {
     font-size: 1.2rem;
+    line-height: 1.4rem;
   }
 `;
 
@@ -199,6 +200,10 @@ const TabItem = styled.div<{ active: boolean }>`
   font-weight: 500;
   padding: 1.2rem 3.2rem;
   cursor: pointer;
+
+  @media ${breakpoint.devices.phone} {
+    font-size: 1.3rem;
+  }
 `;
 
 const tabs = [

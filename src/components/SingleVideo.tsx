@@ -31,12 +31,23 @@ const Title = styled.h1`
   margin-top: 2rem;
   margin-bottom: 1rem;
   color: ${({ theme }) => theme.text};
+
+  @media ${breakpoint.devices.phone} {
+    font-size: 1.7rem;
+    line-height: 2.2rem;
+  }
 `;
 
 const Details = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media ${breakpoint.devices.phone} {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
 `;
 
 const Info = styled.p`
@@ -64,9 +75,16 @@ const Button = styled.div`
   color: ${({ theme }) => theme.text};
   cursor: pointer;
 
+  svg {
+    font-size: 2.4rem;
+  }
+
   @media ${breakpoint.devices.phone} {
     gap: 0.6rem;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
+    svg {
+      font-size: 2rem;
+    }
   }
 `;
 
@@ -89,7 +107,8 @@ const Channel = styled.div`
   }
 
   @media ${breakpoint.devices.phone} {
-    grid-template-columns: 1fr 6fr 1fr;
+    grid-template-columns: 1fr 4fr 1fr;
+    row-gap: 1.2rem;
   }
 `;
 
@@ -126,7 +145,11 @@ const SubscriberCount = styled.p`
 const Description = styled.p`
   color: ${({ theme }) => theme.text};
   grid-row: 2 / span 1;
-  grid-column: 2 / span 1;
+  grid-column: 2 / -1;
+
+  @media ${breakpoint.devices.phone} {
+    font-size: 1.4rem;
+  }
 `;
 
 const SubscribeButton = styled.button`
@@ -141,6 +164,7 @@ const SubscribeButton = styled.button`
 
   @media ${breakpoint.devices.phone} {
     font-size: 1.3rem;
+    padding: 0.6rem 1rem;
   }
 `;
 
@@ -229,27 +253,19 @@ const SingleVideo: React.FC<Props> = (props) => {
         </Info>
         <Buttons>
           <Button onClick={likeHandler}>
-            {isLiked ? (
-              <Liked style={{ fontSize: '2.4rem' }} />
-            ) : (
-              <Like style={{ fontSize: '2.4rem' }} />
-            )}
+            {isLiked ? <Liked /> : <Like />}
             {props.video?.likes.length}
           </Button>
           <Button onClick={dislikeHandler}>
-            {isDisliked ? (
-              <Disliked style={{ fontSize: '2.4rem' }} />
-            ) : (
-              <Dislike style={{ fontSize: '2.4rem' }} />
-            )}
+            {isDisliked ? <Disliked /> : <Dislike />}
             DISLIKE
           </Button>
           <Button>
-            <Share style={{ fontSize: '2.4rem' }} />
+            <Share />
             SHARE
           </Button>
           <Button>
-            <Save style={{ fontSize: '2.4rem' }} />
+            <Save />
             SAVE
           </Button>
         </Buttons>
